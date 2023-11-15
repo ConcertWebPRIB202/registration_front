@@ -9,62 +9,108 @@
           </div>
         </div>
         <!-- @submit.prevent="RegisterUser" -->
-        <form class="registration-form mt-20" novalidate @submit.prevent="onSubmit">
+        <!-- novalidate @submit.prevent="onSubmit" -->
+        <Form class="registration-form mt-20" novalidate @submit.prevent="onSubmit">
+          <!-- <Field name="email" type="email" :rules="validateEmail" v-slot="{ field, errorMessage, meta }">
+            <input v-bind="field" :class="errorMessage ? 'borderErrors' : ''" />
+            <span v-if="errorMessage">⛔️ {{ errorMessage }}</span>
+            <span v-if="meta.valid && meta.touched">✅ Field is valid</span>
+          </Field> -->
+          <div class="form-group flex mb-5 justify-center font-size-6 errorMessage">
+            <label>Поля, отмеченные * являются обязательными</label>
+          </div>
           <div class="form-group flex mb-5">
             <img src="./assets/star.svg" />
-            <input id="login" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" type="text" placeholder="Логин: " v-model="login">
+            <!-- <Field name="login" id="login" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" type="text" placeholder="Логин: " v-model.trim="login" :rules="validateLogin"/> -->
+            <!-- <input id="login" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" type="text" placeholder="Логин: " v-model.trim="login" :rules="validateLogin" /> -->
+            <Field name="login" type="text" :rules="validateLogin" v-slot="{ field, errorMessage, meta }">
+              <input v-bind="field" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="login" placeholder="Логин: "/>
+            </Field>
+          </div>
+          <div class="form-group flex mb-5 justify-center font-size-8 errorMessage">
+            <ErrorMessage name="login"/>
           </div>
           <div class="form-group flex mb-5 tooltip-group relative">
             <img src="./assets/star.svg" />
             <div class="input-wrapper relative">
-              <input id="password" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" placeholder="Пароль: " :type="passwordFieldType" v-model="password">
+              <!-- <Field name="password" rules="requiredPass" />
+              <Field name="confirmation" rules="requiredPass|confirmed:password|passwordValidate" />
+              <ErrorMessage name="confirmation"/> -->
+              <Field name="password" :type="passwordFieldType" rules="requiredPass|passwordValidate" v-slot="{ field, errorMessage, meta }">
+                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="password" :type="passwordFieldType" placeholder="Пароль: "/>
+              </Field>
+              <!-- <input id="password" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" placeholder="Пароль: " :type="passwordFieldType" v-model.trim="password" > -->
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPassword" type="password" @click="switchVisibility"/>
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" v-show="!isShowPassword" type="password" @click="switchVisibility" />
             </div>
             <div v-show="isShown" class="tooltip tooltip-top">Пароль должен состоять из <br> латинских символов. <br> Должен содержать знаки и <br> заглавные буквы</div>
             <img  @mouseenter="toggle" @mouseleave="toggle" src="./assets/question mark.svg" />
           </div>
+          <div class="form-group flex mb-5 justify-center font-size-8 errorMessage">
+            <ErrorMessage name="password"/>
+          </div>
           <div class="form-group flex mb-5">
             <img src="./assets/star.svg" />
             <div class="input-wrapper relative">
-              <input id="passwordConfirm" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" placeholder="Повторите пароль: " :type="passwordFieldTypeConfirm" v-model="passwordConfirm">
+              <Field name="passwordConfirm" :type="passwordFieldTypeConfirm" rules="requiredPass|passwordValidate|confirmed:password" v-slot="{ field, errorMessage, meta }">
+                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="passwordConfirm" :type="passwordFieldTypeConfirm" placeholder="Повторите пароль:  "/>
+              </Field>
+              <!-- <input id="passwordConfirm" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" placeholder="Повторите пароль: " :type="passwordFieldTypeConfirm" v-model.trim="passwordConfirm"> -->
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPasswordConfirm" type="password" @click="switchVisibilityConfirm"/>
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" v-show="!isShowPasswordConfirm" type="password" @click="switchVisibilityConfirm" />
             </div>
           </div>
+          <div class="form-group flex mb-5 justify-center font-size-8 errorMessage">
+            <ErrorMessage name="passwordConfirm"/>
+          </div>
           <div class="form-group flex mb-5 tooltip-group relative">
             <img src="./assets/star.svg" />
             <div class="input-wrapper relative">
-              <input id="phone" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" type="phone" placeholder="Телефон: " v-model="phone">
+              <Field name="phone" type="phone" rules="phoneValidate" v-slot="{ field, errorMessage, meta }">
+                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="phone" type="phone" placeholder="Телефон:  "/>
+              </Field>
+              <!-- <input id="phone" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" type="phone" placeholder="Телефон: " v-model.trim="phone"> -->
             </div>
             <div v-show="isShownPhone" class="tooltip">Номер должен вводиться с <br> кодом страны</div>
             <img @mouseenter="togglePhone" @mouseleave="togglePhone" src="./assets/question mark.svg" />
           </div>
+          <div class="form-group flex mb-5 justify-center font-size-8 errorMessage">
+            <ErrorMessage name="phone"/>
+          </div>
           <div class="form-group flex mb-5">
-            <div class="input-wrapper relative city w-full">
-              <select name="" id="" class="input-city">
+            <div class="input-wrapper relative city w-full mb-5">
+              <select name="" id="city" class="input-city" v-model="city">
                 <option selected disabled value="">Город: </option>
-                <option v-for="{value, label} in options" :key="value" :value="value">
+                <option v-for="{value, label} in citys" :key="value" :value="value.value">
                 {{ label }}
                 </option>
               </select>
             </div>
           </div>
-          <div class="form-group flex mb-5">
-            <img src="./assets/star.svg" />
-            <input id="email" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" type="email" placeholder="Почта" v-model="email">
+          <div class="form-group flex flex-col mb-5">
+            <div class="mb-5">
+              <img src="./assets/star.svg" />
+              <Field name="email" type="email" rules="emailValidate" v-slot="{ field, errorMessage, meta }">
+                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="email" type="email" placeholder="Почта:  "/>
+              </Field>
+              <!-- <Field name="email" id="email" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" type="email" placeholder="Почта" v-model.trim="email" rules="emailValidate" /> -->
+            </div>
+            <div class="form-group flex mb-5 justify-center font-size-8 errorMessage">
+              <ErrorMessage name="email"/>
+            </div>
+            <!-- <input id="email" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" type="email" placeholder="Почта" v-model.trim="email" :rules="validateEmail"> -->
           </div>
           <div class="form-group flex mb-5 gender-body flex-col ml-13">
             <label class="gender-label font-size-9 text-color-white">Пол: </label>
             <div class="gender-block flex grid-items-center">
-              <input class="custom-radio" type="radio" name="gender" id="gender-male" v-model="gender">
+              <input class="custom-radio" type="radio" name="gender" id="gender-male" value="male" v-model.trim="gender">
               <label for="gender-male" class="gender-label font-size-9 text-color-white sex mr-8">Муж</label>
-              <input class="custom-radio" type="radio" name="gender" id="gender-femile" v-model="gender">
+              <input class="custom-radio" type="radio" name="gender" id="gender-femile" value="famel" v-model.trim="gender">
               <label for="gender-femile" class="gender-label font-size-9 text-color-white sex mr-8">Жен</label>
             </div>
           </div>
           <div class="form-group flex mb-5 photo-body flex-col">
-            <div class="photo-block flex justify-between relative">
+            <div class="photo-block flex justify-between relative  mb-5">
               <div>
                 <img src="./assets/star.svg" />
                 <label class="photo-label font-size-9 text-color-white ml-8">Фото паспорта: </label>
@@ -72,28 +118,109 @@
               <div v-show="isShownPhoto" class="tooltip tooltip-top">Прикрепите фото первой <br> страницы паспорта.Фото <br> должно быть в форматах <br> .jpeg или .png</div>
               <img @mouseenter="togglePhoto" @mouseleave="togglePhoto" src="./assets/question mark.svg">
             </div>
-            <input type="file" id='upload' />
-            <label for='upload' class="input-file"><img src="./assets/upload.svg"></label>
+            <Field name="upload" type="file" rules="requiredPhoto" v-slot="{ field, errorMessage, meta }">
+                <input v-bind="field" type="file" id='upload' accept="image/x-png,image/gif,image/jpeg"/>
+                <label for='upload'  class="input-file" :class="meta.dirty ? '' : 'borderErrors'"><img src="./assets/upload.svg"></label>
+            </Field>
+            <!-- <input type="file" id='upload' /> -->
+            <!-- <label for='upload' class="input-file"><img src="./assets/upload.svg"></label> -->
+            <div class="form-group flex mt-5 justify-center font-size-8 errorMessage">
+              <ErrorMessage name="upload"/>
+            </div>
           </div>
           <div class="form-group flex mb-5 checkbox-body">
             <img src="./assets/star.svg" />
-            <input type="checkbox" class="custom-checkbox" id="happy" name="happy" value="yes">
-            <label for="happy" class="checkbox-label font-size-6 text-color-white">Я даю свое согласие на обработку <br> персональных данных</label>
+            <Field name="consent" type="checkbox" rules="requiredCheckBox" id="consent" v-slot="{ field, errorMessage, meta }">
+              <input v-bind="field" type="checkbox" class="custom-checkbox" id="consent" v-model="consent">
+              <label for="consent" class="checkbox-label font-size-6 text-color-white">Я даю свое согласие на обработку <br> персональных данных</label>
+            </Field>
+            <!-- <input type="checkbox" class="custom-checkbox" id="consent" name="consent" v-model="consent">
+            <label for="consent" class="checkbox-label font-size-6 text-color-white">Я даю свое согласие на обработку <br> персональных данных</label> -->
           </div>
+          <div class="form-group flex mt-5 justify-center font-size-8 errorMessage mb-5">
+              <ErrorMessage name="consent"/>
+            </div>
           <div class="form-button text-center">
               <button type="submit" class="form-button-click cursor-pointer border-rd-20 border-0 p-3 text-color-white submain-background-color font-size-8">Зарегистрироваться</button>
           </div>
           <p class="loginIn text-color-white underline text-center mt-16 mb-24 font-size-6">
             <router-link to="#">Уже есть аккаунт? Войти</router-link>
           </p>
-        </form>
+        </Form>
       </div>
     </div>
   </div>
 </template>
 
+<!-- <script lang="ts"> -->
 <script lang="ts">
-import { toValue } from 'vue';
+import { Field, Form, ErrorMessage } from 'vee-validate';
+import { defineRule } from 'vee-validate';
+import { required, email, min } from '@vee-validate/rules';
+import { configure } from 'vee-validate';
+
+configure({
+  validateOnBlur: true, // controls if `blur` events should trigger validation with `handleChange` handler
+  validateOnChange: true, // controls if `change` events should trigger validation with `handleChange` handler
+  validateOnInput: false, // controls if `input` events should trigger validation with `handleChange` handler
+  validateOnModelUpdate: true, // controls if `update:modelValue` events should trigger validation with `handleChange` handler
+});
+
+defineRule('confirmed', (value, [target], ctx) => {
+  if (value === ctx.form[target]) {
+    return true;
+  }
+  return 'Пароли не совпадают!';
+});
+
+defineRule('requiredPass', value => {
+  if (!value || !value.length) {
+    return 'Пароль не заполнен!';
+  }
+  return true;
+});
+
+defineRule('passwordValidate', value => {
+  if (!/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g.test(value)) {
+    return 'Пароль введен не корректно!';
+  }
+  return true;
+});
+
+defineRule('phoneValidate', value => {
+  if (!value || !value.length) {
+    return 'Телефон не заполнен!';
+  }
+  if (!/^([+]?[0-9\s-\(\)]{10,25})*$/i.test(value)) {
+    return 'Телефон введен не корректно!';
+  }
+  return true;
+});
+
+defineRule('emailValidate', value => {
+  if (!value || !value.length) {
+    return 'Почта не введена!';
+  }
+  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  if (!regex.test(value)) {
+    return 'Почта введена не корректно!';
+  }
+  return true;
+});
+
+defineRule('requiredPhoto', value => {
+  if (!value) {
+    return 'Фото паспорта не добавлено!';
+  }
+  return true;
+});
+
+defineRule('requiredCheckBox', value => {
+    if (value && value.length) {
+      return true;
+    }
+    return 'Согласие не дано!';
+});
 
   export default{
     data() {
@@ -102,10 +229,20 @@ import { toValue } from 'vue';
           password: "",
           passwordConfirm: "",
           phone: "",
-          city: "",
+          city: '',
+          citys: [
+            { value: 'Moscov', label: "Москва"},
+            { value: 'Volgograd', label: "Волгоград"},
+            { value: 'Omsk', label: "Омск"},
+            { value: 'Ekaterinburg', label: "Екатеринбург"},
+            { value: 'Tomsk', label: "Томск"},
+          ],
           email: "",
           gender: "",
-          consent: "",
+          consent: false,
+          errors:[],
+
+          errorlogin: '',
 
           passwordFieldType: "password",
           passwordFieldTypeConfirm: "password",
@@ -116,14 +253,12 @@ import { toValue } from 'vue';
           isShowPassword: true,
           isShowPasswordConfirm: true,
 
-          options: [
-            { value: 1, label: "Москва"},
-            { value: 2, label: "Волгоград"},
-            { value: 3, label: "Омск"},
-            { value: 4, label: "Екатеринбург"},
-            { value: 5, label: "Томск"},
-          ]
         };
+    },
+    components: {
+      Form,
+      Field,
+      ErrorMessage,
     },
     methods: {
       RegisterUser(){
@@ -150,11 +285,41 @@ import { toValue } from 'vue';
       onSubmit() {
         console.log('Submitted');
       },
+
+      validateLogin(value){
+        if (!value) {
+          return 'Логин не введен!';
+        }
+        if (value.length < 8) {
+          return 'Логин менее 8-ми символов!';
+        }
+        return true;
+      },
+      // validateEmail(value) {
+      //   if (!value) {
+      //     return 'Почта не введена!';
+      //   }
+      //   const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+      //   if (!regex.test(value)) {
+      //     return 'Почта введена не корректно!';
+      //   }
+      //   return true;
+      // },
+
     },
 };
 </script>
 
 <style scoped>
+
+
+.errorMessage{
+  color: #F7F4A4;
+}
+.borderErrors{
+  border: 1px solid red;
+}
+
 /* Настройка кастомного чекбокса */
 .custom-checkbox {
   position: absolute;
@@ -319,7 +484,7 @@ import { toValue } from 'vue';
   margin: auto;
   padding: 20px 40px;
 }
-.form-group:nth-child(5){
+.form-group:nth-child(10){
   margin-left: 20px;
 }
 #upload{
