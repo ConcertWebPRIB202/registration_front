@@ -7,5 +7,6 @@ RUN bash /tmp/nodesource_setup.sh
 RUN apt-get install nodejs -y
 RUN apt install software-properties-common -y
 COPY . registration_front
+RUN npm install @vitejs/plugin-vue pinia vue vue-loader vue-router unocss
 RUN cd registration_front && npm install
 CMD cd registration_front && npm run dev
