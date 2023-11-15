@@ -21,10 +21,10 @@ jobs:
        uses: docker/build-push-action@v5
        with:
           context: .
-          tags: equio:latest
-          outputs: type=docker,dest=/tmp/equio.tar
+          tags: equio_front:latest
+          outputs: type=docker,dest=/tmp/equio_front.tar
      - name: Upload artifact
        uses: actions/upload-artifact@v3
        with:
-          name: equio
-          path: /tmp/equio.tar
+          name: equio_front
+          path: /tmp/equio_front.tar
