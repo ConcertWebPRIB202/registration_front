@@ -3,7 +3,7 @@
     <div class="container ma b-rd-10 main-background-color">
       <div class="registration-body flex justify-center">
         <div class="registration-logo flex justify-center flex-col mr-10">
-          <img class="logo-shaman" src="./assets/LogoShaman.svg" />
+          <img class="logo-shaman" src="./assets/logoShaman.svg" />
           <div class="title-shaman text-center font-size-30 text-color-white">
             SHAMAN
           </div>
