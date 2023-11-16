@@ -24,7 +24,7 @@
             <!-- <Field name="login" id="login" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" type="text" placeholder="Логин: " v-model.trim="login" :rules="validateLogin"/> -->
             <!-- <input id="login" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" type="text" placeholder="Логин: " v-model.trim="login" :rules="validateLogin" /> -->
             <Field name="login" type="text" :rules="validateLogin" v-slot="{ field, errorMessage, meta }">
-              <input v-bind="field" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="login" placeholder="Логин: "/>
+              <input v-bind="field" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="login" placeholder="Логин "/>
             </Field>
           </div>
           <div class="form-group flex mb-5 font-size-8 errorMessage error-message-color-text">
@@ -37,7 +37,7 @@
               <Field name="confirmation" rules="requiredPass|confirmed:password|passwordValidate" />
               <ErrorMessage name="confirmation"/> -->
               <Field name="password" :type="passwordFieldType" rules="requiredPass|passwordValidate" v-slot="{ field, errorMessage, meta }">
-                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="password" :type="passwordFieldType" placeholder="Пароль: "/>
+                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="password" :type="passwordFieldType" placeholder="Пароль "/>
               </Field>
               <!-- <input id="password" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" placeholder="Пароль: " :type="passwordFieldType" v-model.trim="password" > -->
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPassword" type="password" @click="switchVisibility"/>
@@ -53,7 +53,7 @@
             <img src="./assets/star.svg" />
             <div class="input-wrapper relative">
               <Field name="passwordConfirm" :type="passwordFieldTypeConfirm" rules="passwordValidate|confirmed:password" v-slot="{ field, errorMessage, meta }">
-                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="passwordConfirm" :type="passwordFieldTypeConfirm" placeholder="Повторите пароль:  "/>
+                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="passwordConfirm" :type="passwordFieldTypeConfirm" placeholder="Повторите пароль  "/>
               </Field>
               <!-- <input id="passwordConfirm" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" placeholder="Повторите пароль: " :type="passwordFieldTypeConfirm" v-model.trim="passwordConfirm"> -->
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPasswordConfirm" type="password" @click="switchVisibilityConfirm"/>
@@ -67,7 +67,7 @@
             <img src="./assets/star.svg" />
             <div class="input-wrapper relative">
               <Field name="phone" type="phone" rules="phoneValidate" v-slot="{ field, errorMessage, meta }">
-                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="phone" type="phone" placeholder="Телефон:  "/>
+                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="phone" type="phone" placeholder="Телефон  "/>
               </Field>
               <!-- <input id="phone" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" type="phone" placeholder="Телефон: " v-model.trim="phone"> -->
             </div>
@@ -91,7 +91,7 @@
             <div class="mb-5">
               <img src="./assets/star.svg" />
               <Field name="email" type="email" rules="emailValidate" v-slot="{ field, errorMessage, meta }">
-                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="email" type="email" placeholder="Почта:  "/>
+                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="email" type="email" placeholder="Почта  "/>
               </Field>
               <!-- <Field name="email" id="email" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" type="email" placeholder="Почта" v-model.trim="email" rules="emailValidate" /> -->
             </div>
@@ -120,7 +120,7 @@
             </div>
             <Field name="upload" type="file" rules="requiredPhoto" v-slot="{ field, errorMessage, meta }">
                 <!-- <input v-bind="field" type="file" id='upload' accept="image/x-png,image/gif,image/jpeg"/> -->
-                <input v-bind="field" type="file" id='upload' />
+                <input v-bind="field" type="file" id='upload' accept="image/x-png,image/gif,image/jpeg,image/jpg,image/bmp,image/svg,image/webp" />
                 <label for='upload'  class="input-file" :class="meta.dirty ? '' : 'borderErrors'"><img src="./assets/upload.svg"></label>
             </Field>
             <!-- <input type="file" id='upload' /> -->
