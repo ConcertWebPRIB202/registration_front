@@ -51,16 +51,16 @@
           </div>
           <div class="form-group flex tooltip-group relative">
             <img src="./assets/star.svg" />
-            <div class="input-wrapper relative mb-5">
+            <div class="input-wrapper relative">
               <Field name="phone" type="tel" rules="phoneValidate" v-slot="{ field, errorMessage, meta }">
                 <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="phone" type="tel" v-maska data-maska="+7 ### ### ## ## " placeholder="+7"/>
               </Field>
             </div>
-            <div v-show="isShownPhone" class="tooltip">Номер должен вводиться с <br> кодом страны</div>
+            <div v-show="isShownPhone" class="tooltip tooltip-right">Номер должен вводиться без <br> кода страны</div>
             <img @mouseenter="togglePhone" @mouseleave="togglePhone" src="./assets/question mark.svg" />
           </div>
-          <div class="form-group flex font-size-8 errorMessage error-message-color-text">
-            <ErrorMessage name="phone" class="mb-5"/>
+          <div class="form-group flex font-size-8 errorMessage error-message-color-text mt-5">
+            <ErrorMessage name="phone" class="mb-5 "/>
           </div>
           <div class="form-group flex mb-5">
             <div class="input-wrapper relative city w-full">
@@ -87,7 +87,7 @@
             <label class="gender-label font-size-8 text-color-white">Пол: </label>
             <div class="gender-block flex grid-items-center">
               <input class="custom-radio" type="radio" name="gender" id="gender-male" value="male" v-model.trim="gender">
-              <label for="gender-male" class="gender-label font-size-8 text-color-white sex mr-8">Муж</label>
+              <label for="gender-male" class="gender-label font-size-8 text-color-white sex mr-16">Муж</label>
               <input class="custom-radio" type="radio" name="gender" id="gender-femile" value="famel" v-model.trim="gender">
               <label for="gender-femile" class="gender-label font-size-8 text-color-white sex mr-8">Жен</label>
             </div>
@@ -109,20 +109,20 @@
               <ErrorMessage name="upload" class="mb-5"/>
             </div>
           </div>
-          <div class="form-group flex mb-5 checkbox-body">
+          <div class="form-group mb-5 checkbox-body">
             <img src="./assets/star.svg" />
             <Field name="consent" type="checkbox" rules="requiredCheckBox" id="consent" v-slot="{ field, errorMessage, meta }">
               <input v-bind="field" type="checkbox" class="custom-checkbox" id="consent" v-model="consent">
-              <label for="consent" class="checkbox-label font-size-8 text-color-white " >Я даю свое согласие на <br> обработку персональных <br> данных</label>
+              <label for="consent" class="checkbox-label flex font-size-8 text-color-white widthchecbox" >Я даю свое согласие на обработку персональных данных</label>
             </Field>
           </div>
           <div class="form-group flex mt-5 font-size-8 errorMessage error-message-color-text">
               <ErrorMessage name="consent" class="mb-5"/>
             </div>
-          <div class="form-button text-center">
-              <button type="submit" class="form-button-click cursor-pointer border-rd-20 border-0 p-3 text-color-white submain-background-color font-size-8">Зарегистрироваться</button>
+          <div class="form-button">
+              <button type="submit" class="form-button-click cursor-pointer border-rd-20 border-0 text-color-white submain-background-color font-size-8">Зарегистрироваться</button>
           </div>
-          <p class="loginIn text-color-white underline text-center mt-16 mb-24 font-size-6">
+          <p class="loginIn text-color-white underline text-center mt-16 mb-24 mr-20 font-size-6">
             <router-link to="#">Уже есть аккаунт? Войти</router-link>
           </p>
         </Form>
@@ -427,7 +427,7 @@ input::-webkit-inner-spin-button {
   border: 2px solid #F7F4A4;
   position: absolute;
   top: -70px;
-  right: -65%;
+  right: -42%;
   color: #FFFFFF;
   font-size: 24px;
   text-align: center;
@@ -441,7 +441,7 @@ input::-webkit-inner-spin-button {
   background-color: #5c5c5c;
   border: 0;
   font-size: 32px;
-  width: 86%;
+  width: 78%;
   color: #FFFFFF;
   appearance: none;
   background: url(./assets/dropmenu.svg) no-repeat right rgba(55, 55, 55, 1);
@@ -455,13 +455,17 @@ input::-webkit-inner-spin-button {
   text-align: center;
   background: #373737;
   height: 102px;
-  width: 65%;
+  width: 63%;
   border-radius: 30px;
-  margin: auto;
+  margin: 0 0 0 50px;
   padding: 20px 26px;
 }
+.form-button{
+  margin: 0 0 0 50px;
+}
 .form-button-click{
-  width: 85%;
+  /* width: 85%; */
+  padding: 10px 74px 14px 74px;
   background: #373737;
   font-family: Inter,  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
@@ -491,6 +495,15 @@ input::-webkit-inner-spin-button {
 }
 .logo-shaman{
   max-width: 100%;
+}
+.widthchecbox{
+  max-width: 610px;
+}
+.photo-margin{
+  margin-right: 74px;
+}
+.tooltip-right{
+  right: -46%;
 }
 @media (max-width: 1440px) {
   .container{
