@@ -8,22 +8,12 @@
             SHAMAN
           </div>
         </div>
-        <!-- @submit.prevent="RegisterUser" -->
-        <!-- novalidate @submit.prevent="onSubmit" -->
         <Form class="registration-form mt-20" novalidate @submit.prevent="onSubmit">
-          <!-- <Field name="email" type="email" :rules="validateEmail" v-slot="{ field, errorMessage, meta }">
-            <input v-bind="field" :class="errorMessage ? 'borderErrors' : ''" />
-            <span v-if="errorMessage">⛔️ {{ errorMessage }}</span>
-            <span v-if="meta.valid && meta.touched">✅ Field is valid</span>
-          </Field> -->
-          <!-- <input type="text" onkeyup="this.value = this.value.replace(/[^\d]/g,'');"> -->
           <div class="form-group flex mb-5 justify-center font-size-6 error-message-color-text">
             <label>Поля, отмеченные * являются обязательными</label>
           </div>
           <div class="form-group flex mb-5">
             <img src="./assets/star.svg" />
-            <!-- <Field name="login" id="login" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" type="text" placeholder="Логин: " v-model.trim="login" :rules="validateLogin"/> -->
-            <!-- <input id="login" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" type="text" placeholder="Логин: " v-model.trim="login" :rules="validateLogin" /> -->
             <Field name="login" type="text" :rules="validateLogin" v-slot="{ field, errorMessage, meta }">
               <input v-bind="field" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="login" placeholder="Логин "/>
             </Field>
@@ -34,13 +24,9 @@
           <div class="form-group flex mb-5 tooltip-group relative">
             <img src="./assets/star.svg" />
             <div class="input-wrapper relative">
-              <!-- <Field name="password" rules="requiredPass" />
-              <Field name="confirmation" rules="requiredPass|confirmed:password|passwordValidate" />
-              <ErrorMessage name="confirmation"/> -->
               <Field name="password" :type="passwordFieldType" rules="requiredPass|passwordValidate" v-slot="{ field, errorMessage, meta }">
                 <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="password" :type="passwordFieldType" placeholder="Пароль "/>
               </Field>
-              <!-- <input id="password" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" placeholder="Пароль: " :type="passwordFieldType" v-model.trim="password" > -->
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPassword" type="password" @click="switchVisibility"/>
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" v-show="!isShowPassword" type="password" @click="switchVisibility" />
             </div>
@@ -56,7 +42,6 @@
               <Field name="passwordConfirm" :type="passwordFieldTypeConfirm" rules="passwordValidate|confirmed:password" v-slot="{ field, errorMessage, meta }">
                 <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="passwordConfirm" :type="passwordFieldTypeConfirm" placeholder="Повторите пароль  "/>
               </Field>
-              <!-- <input id="passwordConfirm" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" placeholder="Повторите пароль: " :type="passwordFieldTypeConfirm" v-model.trim="passwordConfirm"> -->
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPasswordConfirm" type="password" @click="switchVisibilityConfirm"/>
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" v-show="!isShowPasswordConfirm" type="password" @click="switchVisibilityConfirm" />
             </div>
@@ -70,7 +55,6 @@
               <Field name="phone" type="tel" rules="phoneValidate" v-slot="{ field, errorMessage, meta }">
                 <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="phone" type="tel" v-maska data-maska="+7 ### ### ## ## " placeholder="+7"/>
               </Field>
-              <!-- <input id="phone" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" type="phone" placeholder="Телефон: " v-model.trim="phone"> -->
             </div>
             <div v-show="isShownPhone" class="tooltip">Номер должен вводиться с <br> кодом страны</div>
             <img @mouseenter="togglePhone" @mouseleave="togglePhone" src="./assets/question mark.svg" />
@@ -94,12 +78,10 @@
               <Field name="email" type="email" rules="emailValidate" v-slot="{ field, errorMessage, meta }">
                 <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="email" type="email" placeholder="Почта  "/>
               </Field>
-              <!-- <Field name="email" id="email" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" type="email" placeholder="Почта" v-model.trim="email" rules="emailValidate" /> -->
             </div>
             <div class="form-group flex mb-5 font-size-8 errorMessage error-message-color-text">
               <ErrorMessage name="email"/>
             </div>
-            <!-- <input id="email" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" type="email" placeholder="Почта" v-model.trim="email" :rules="validateEmail"> -->
           </div>
           <div class="form-group flex mb-5 gender-body flex-col ml-13">
             <label class="gender-label font-size-8 text-color-white">Пол: </label>
@@ -120,12 +102,9 @@
               <img @mouseenter="togglePhoto" @mouseleave="togglePhoto" class="photo-margin" src="./assets/question mark.svg">
             </div>
             <Field name="upload" type="file" rules="requiredPhoto" v-slot="{ field, errorMessage, meta }">
-                <!-- <input v-bind="field" type="file" id='upload' accept="image/x-png,image/gif,image/jpeg"/> -->
                 <input v-bind="field" type="file" id='upload' accept="image/x-png,image/gif,image/jpeg,image/jpg,image/bmp,image/svg,image/webp" />
                 <label for='upload'  class="input-file" :class="meta.dirty ? '' : 'borderErrors'"><img src="./assets/upload.svg"></label>
             </Field>
-            <!-- <input type="file" id='upload' /> -->
-            <!-- <label for='upload' class="input-file"><img src="./assets/upload.svg"></label> -->
             <div class="form-group flex mt-5 font-size-8 errorMessage error-message-color-text">
               <ErrorMessage name="upload"/>
             </div>
@@ -136,8 +115,6 @@
               <input v-bind="field" type="checkbox" class="custom-checkbox" id="consent" v-model="consent">
               <label for="consent" class="checkbox-label font-size-8 text-color-white " >Я даю свое согласие на <br> обработку персональных <br> данных</label>
             </Field>
-            <!-- <input type="checkbox" class="custom-checkbox" id="consent" name="consent" v-model="consent">
-            <label for="consent" class="checkbox-label font-size-6 text-color-white">Я даю свое согласие на обработку <br> персональных данных</label> -->
           </div>
           <div class="form-group flex mt-5 font-size-8 errorMessage mb-5 error-message-color-text">
               <ErrorMessage name="consent"/>
