@@ -18,8 +18,8 @@
               <input v-bind="field" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="login" placeholder="Логин "/>
             </Field>
           </div>
-          <div class="form-group flex mb-5 font-size-8 errorMessage error-message-color-text">
-            <ErrorMessage name="login"/>
+          <div class="form-group flex font-size-8 errorMessage error-message-color-text">
+            <ErrorMessage name="login" class="mb-5"/>
           </div>
           <div class="form-group flex mb-5 tooltip-group relative">
             <img src="./assets/star.svg" />
@@ -33,8 +33,8 @@
             <div v-show="isShown" class="tooltip tooltip-bottom">Пароль должен состоять из <br> латинских символов. <br> Должен содержать знаки и <br> заглавные буквы</div>
             <img  @mouseenter="toggle" @mouseleave="toggle" src="./assets/question mark.svg" />
           </div>
-          <div class="form-group flex mb-5 font-size-8 errorMessage error-message-color-text">
-            <ErrorMessage name="password"/>
+          <div class="form-group flex font-size-8 errorMessage error-message-color-text">
+            <ErrorMessage name="password" class="mb-5"/>
           </div>
           <div class="form-group flex mb-5">
             <img src="./assets/star.svg" />
@@ -46,12 +46,12 @@
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" v-show="!isShowPasswordConfirm" type="password" @click="switchVisibilityConfirm" />
             </div>
           </div>
-          <div class="form-group flex mb-5 font-size-8 errorMessage error-message-color-text">
-            <ErrorMessage name="passwordConfirm"/>
+          <div class="form-group flex font-size-8 errorMessage error-message-color-text">
+            <ErrorMessage name="passwordConfirm" class="mb-5"/>
           </div>
-          <div class="form-group flex mb-5 tooltip-group relative">
+          <div class="form-group flex tooltip-group relative">
             <img src="./assets/star.svg" />
-            <div class="input-wrapper relative">
+            <div class="input-wrapper relative mb-5">
               <Field name="phone" type="tel" rules="phoneValidate" v-slot="{ field, errorMessage, meta }">
                 <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="phone" type="tel" v-maska data-maska="+7 ### ### ## ## " placeholder="+7"/>
               </Field>
@@ -59,11 +59,11 @@
             <div v-show="isShownPhone" class="tooltip">Номер должен вводиться с <br> кодом страны</div>
             <img @mouseenter="togglePhone" @mouseleave="togglePhone" src="./assets/question mark.svg" />
           </div>
-          <div class="form-group flex mb-5 font-size-8 errorMessage error-message-color-text">
-            <ErrorMessage name="phone"/>
+          <div class="form-group flex font-size-8 errorMessage error-message-color-text">
+            <ErrorMessage name="phone" class="mb-5"/>
           </div>
           <div class="form-group flex mb-5">
-            <div class="input-wrapper relative city w-full mb-5">
+            <div class="input-wrapper relative city w-full">
               <select name="" id="city" class="input-city" v-model="city">
                 <option selected disabled value="">Город: </option>
                 <option v-for="{value, label} in citys" :key="value" :value="value.value">
@@ -79,8 +79,8 @@
                 <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="email" type="email" placeholder="Почта  "/>
               </Field>
             </div>
-            <div class="form-group flex mb-5 font-size-8 errorMessage error-message-color-text">
-              <ErrorMessage name="email"/>
+            <div class="form-group flex font-size-8 errorMessage error-message-color-text">
+              <ErrorMessage name="email" class="mb-5"/>
             </div>
           </div>
           <div class="form-group flex mb-5 gender-body flex-col ml-13">
@@ -106,7 +106,7 @@
                 <label for='upload'  class="input-file" :class="meta.dirty ? '' : 'borderErrors'"><img src="./assets/upload.svg"></label>
             </Field>
             <div class="form-group flex mt-5 font-size-8 errorMessage error-message-color-text">
-              <ErrorMessage name="upload"/>
+              <ErrorMessage name="upload" class="mb-5"/>
             </div>
           </div>
           <div class="form-group flex mb-5 checkbox-body">
@@ -116,8 +116,8 @@
               <label for="consent" class="checkbox-label font-size-8 text-color-white " >Я даю свое согласие на <br> обработку персональных <br> данных</label>
             </Field>
           </div>
-          <div class="form-group flex mt-5 font-size-8 errorMessage mb-5 error-message-color-text">
-              <ErrorMessage name="consent"/>
+          <div class="form-group flex mt-5 font-size-8 errorMessage error-message-color-text">
+              <ErrorMessage name="consent" class="mb-5"/>
             </div>
           <div class="form-button text-center">
               <button type="submit" class="form-button-click cursor-pointer border-rd-20 border-0 p-3 text-color-white submain-background-color font-size-8">Зарегистрироваться</button>
@@ -162,7 +162,7 @@ defineRule('requiredPass', value => {
 });
 
 defineRule('passwordValidate', value => {
-  if (!/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g.test(value)) {
+  if (!/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g.test(value)) {
     return 'Пароль введен не корректно!';
   }
   return true;
@@ -182,7 +182,7 @@ defineRule('emailValidate', value => {
   if (!value || !value.length) {
     return 'Почта не введена!';
   }
-  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,4}$/i;
+  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i;
   if (!regex.test(value)) {
     return 'Почта введена не корректно!';
   }
@@ -454,11 +454,11 @@ input::-webkit-inner-spin-button {
   justify-content: center;
   text-align: center;
   background: #373737;
-  height: 140px;
+  height: 102px;
   width: 65%;
   border-radius: 30px;
   margin: auto;
-  padding: 20px 40px;
+  padding: 20px 26px;
 }
 .form-button-click{
   width: 85%;
