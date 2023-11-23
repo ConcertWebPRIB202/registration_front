@@ -16,6 +16,7 @@
             <span v-if="errorMessage">⛔️ {{ errorMessage }}</span>
             <span v-if="meta.valid && meta.touched">✅ Field is valid</span>
           </Field> -->
+          <!-- <input type="text" onkeyup="this.value = this.value.replace(/[^\d]/g,'');"> -->
           <div class="form-group flex mb-5 justify-center font-size-6 error-message-color-text">
             <label>Поля, отмеченные * являются обязательными</label>
           </div>
@@ -66,8 +67,8 @@
           <div class="form-group flex mb-5 tooltip-group relative">
             <img src="./assets/star.svg" />
             <div class="input-wrapper relative">
-              <Field name="phone" type="phone" rules="phoneValidate" v-slot="{ field, errorMessage, meta }">
-                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="phone" type="phone" placeholder="Телефон  "/>
+              <Field name="phone" type="tel" rules="phoneValidate" v-slot="{ field, errorMessage, meta }">
+                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="phone" type="tel" v-maska data-maska="+7 ### ### ## ## " placeholder="+7"/>
               </Field>
               <!-- <input id="phone" class="input border-rd-10 border-0 text-color-white input-padding input-margin submain-background-color font-size-8" type="phone" placeholder="Телефон: " v-model.trim="phone"> -->
             </div>
@@ -159,6 +160,8 @@ import { Field, Form, ErrorMessage } from 'vee-validate';
 import { defineRule } from 'vee-validate';
 import { required, email, min } from '@vee-validate/rules';
 import { configure } from 'vee-validate';
+import { vMaska } from "maska";
+
 
 configure({
   validateOnBlur: true, // controls if `blur` events should trigger validation with `handleChange` handler
@@ -202,7 +205,7 @@ defineRule('emailValidate', value => {
   if (!value || !value.length) {
     return 'Почта не введена!';
   }
-  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,4}$/i;
   if (!regex.test(value)) {
     return 'Почта введена не корректно!';
   }
@@ -262,6 +265,7 @@ defineRule('requiredCheckBox', value => {
       Field,
       ErrorMessage,
     },
+    directives: { maska: vMaska },
     methods: {
       RegisterUser(){
         console.log("Вы успешно зарегистрировались!");
@@ -430,6 +434,12 @@ defineRule('requiredCheckBox', value => {
 :-ms-input-placeholder {
   color: #ffffff;
   opacity: 0.5;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 /* Кастомный тултип */
 .tooltip{
