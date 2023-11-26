@@ -1,5 +1,5 @@
 <template>
-  <div class="main-page ma overflow-hidden pt-10 pb-10 submain-background-color">
+  <div class="ma overflow-hidden pt-10 pb-10 submain-background-color">
     <div class="container ma b-rd-10 main-background-color">
       <div class="registration-body flex justify-center">
         <div class="registration-logo flex justify-center flex-col mr-10">
@@ -9,19 +9,17 @@
           </div>
         </div>
         <Form class="registration-form mt-20" novalidate @submit.prevent="onSubmit">
-          <div class="form-group flex mb-5 justify-center font-size-6 error-message-color-text">
+          <div class="flex mb-5 justify-center font-size-6 error-message-color-text">
             <label>Поля, отмеченные * являются обязательными</label>
           </div>
-          <div class="form-group flex mb-5">
+          <div class=" flex mb-5">
             <img src="./assets/star.svg" />
             <Field name="login" type="text" :rules="validateLogin" v-slot="{ field, errorMessage, meta }">
               <input v-bind="field" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="login" placeholder="Логин "/>
             </Field>
           </div>
-          <div class="form-group flex font-size-8 errorMessage error-message-color-text">
-            <ErrorMessage name="login" class="mb-5"/>
-          </div>
-          <div class="form-group flex mb-5 tooltip-group relative">
+          <ErrorMessage name="login" class="mb-5 flex font-size-8 errorMessage error-message-color-text"/>
+          <div class="flex mb-5 tooltip-group relative">
             <img src="./assets/star.svg" />
             <div class="input-wrapper relative">
               <Field name="password" :type="passwordFieldType" rules="requiredPass|passwordValidate" v-slot="{ field, errorMessage, meta }">
@@ -33,10 +31,8 @@
             <div v-show="isShown" class="tooltip tooltip-bottom">Пароль должен состоять из <br> латинских символов. <br> Должен содержать знаки и <br> заглавные буквы</div>
             <img  @mouseenter="toggle" @mouseleave="toggle" src="./assets/question mark.svg" />
           </div>
-          <div class="form-group flex font-size-8 errorMessage error-message-color-text">
-            <ErrorMessage name="password" class="mb-5"/>
-          </div>
-          <div class="form-group flex mb-5">
+          <ErrorMessage name="password" class="mb-5 flex font-size-8 errorMessage error-message-color-text"/>
+          <div class="flex mb-5">
             <img src="./assets/star.svg" />
             <div class="input-wrapper relative">
               <Field name="passwordConfirm" :type="passwordFieldTypeConfirm" rules="passwordValidate|confirmed:password" v-slot="{ field, errorMessage, meta }">
@@ -46,10 +42,8 @@
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" v-show="!isShowPasswordConfirm" type="password" @click="switchVisibilityConfirm" />
             </div>
           </div>
-          <div class="form-group flex font-size-8 errorMessage error-message-color-text">
-            <ErrorMessage name="passwordConfirm" class="mb-5"/>
-          </div>
-          <div class="form-group flex tooltip-group relative">
+          <ErrorMessage name="passwordConfirm" class="mb-5 flex font-size-8 errorMessage error-message-color-text"/>
+          <div class="flex tooltip-group relative">
             <img src="./assets/star.svg" />
             <div class="input-wrapper relative">
               <Field name="phone" type="tel" rules="phoneValidate" v-slot="{ field, errorMessage, meta }">
@@ -59,10 +53,8 @@
             <div v-show="isShownPhone" class="tooltip tooltip-right">Номер должен вводиться без <br> кода страны</div>
             <img @mouseenter="togglePhone" @mouseleave="togglePhone" src="./assets/question mark.svg" />
           </div>
-          <div class="form-group flex font-size-8 errorMessage error-message-color-text mt-5">
-            <ErrorMessage name="phone" class="mb-5 "/>
-          </div>
-          <div class="form-group flex mb-5">
+            <ErrorMessage name="phone" class="mb-5 flex font-size-8 errorMessage error-message-color-text mt-5"/>
+          <div class="flex mb-5 mt-5 ml-5">
             <div class="input-wrapper relative city w-full">
               <select name="" id="city" class="input-city" v-model="city">
                 <option selected disabled value="">Город: </option>
@@ -72,18 +64,16 @@
               </select>
             </div>
           </div>
-          <div class="form-group flex flex-col mb-5">
+          <div class="flex flex-col mb-5">
             <div class="mb-5">
               <img src="./assets/star.svg" />
               <Field name="email" type="email" rules="emailValidate" v-slot="{ field, errorMessage, meta }">
                 <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="email" type="email" placeholder="Почта  "/>
               </Field>
             </div>
-            <div class="form-group flex font-size-8 errorMessage error-message-color-text">
-              <ErrorMessage name="email" class="mb-5"/>
-            </div>
+            <ErrorMessage name="email" class="mb-5 flex font-size-8 errorMessage error-message-color-text"/>
           </div>
-          <div class="form-group flex mb-5 gender-body flex-col ml-13">
+          <div class="flex mb-5 gender-body flex-col ml-13">
             <label class="gender-label font-size-8 text-color-white">Пол: </label>
             <div class="gender-block flex grid-items-center">
               <input class="custom-radio" type="radio" name="gender" id="gender-male" value="male" v-model.trim="gender">
@@ -92,7 +82,7 @@
               <label for="gender-femile" class="gender-label font-size-8 text-color-white sex mr-8">Жен</label>
             </div>
           </div>
-          <div class="form-group flex mb-5 photo-body flex-col">
+          <div class="flex mb-5 photo-body flex-col">
             <div class="photo-block flex justify-between relative  mb-5">
               <div>
                 <img src="./assets/star.svg" />
@@ -105,23 +95,17 @@
                 <input v-bind="field" type="file" id='upload' accept="image/x-png,image/gif,image/jpeg,image/jpg,image/bmp,image/svg,image/webp" />
                 <label for='upload'  class="input-file" :class="meta.dirty ? '' : 'borderErrors'"><img src="./assets/upload.svg"></label>
             </Field>
-            <div class="form-group flex mt-5 font-size-8 errorMessage error-message-color-text">
-              <ErrorMessage name="upload" class="mb-5"/>
-            </div>
+            <ErrorMessage name="upload" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text"/>
           </div>
-          <div class="form-group mb-5 checkbox-body">
+          <div class="mb-5 checkbox-body">
             <img src="./assets/star.svg" />
             <Field name="consent" type="checkbox" rules="requiredCheckBox" id="consent" v-slot="{ field, errorMessage, meta }">
               <input v-bind="field" type="checkbox" class="custom-checkbox" id="consent" v-model="consent">
               <label for="consent" class="checkbox-label flex font-size-8 text-color-white widthchecbox" >Я даю свое согласие на обработку персональных данных</label>
             </Field>
           </div>
-          <div class="form-group flex mt-5 font-size-8 errorMessage error-message-color-text">
-              <ErrorMessage name="consent" class="mb-5"/>
-            </div>
-          <div class="form-button">
-              <button type="submit" class="form-button-click cursor-pointer border-rd-20 border-0 text-color-white submain-background-color font-size-8">Зарегистрироваться</button>
-          </div>
+          <ErrorMessage name="consent" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text"/>
+          <button type="submit" class="form-button-click ml-12 cursor-pointer border-rd-20 border-0 text-color-white submain-background-color font-size-8">Зарегистрироваться</button>
           <p class="loginIn text-color-white underline text-center mt-16 mb-24 mr-20 font-size-6">
             <router-link to="#">Уже есть аккаунт? Войти</router-link>
           </p>
@@ -441,7 +425,7 @@ input::-webkit-inner-spin-button {
   background-color: #5c5c5c;
   border: 0;
   font-size: 32px;
-  width: 78%;
+  width: 453px;
   color: #FFFFFF;
   appearance: none;
   background: url(./assets/dropmenu.svg) no-repeat right rgba(55, 55, 55, 1);
@@ -468,9 +452,6 @@ input::-webkit-inner-spin-button {
   padding: 10px 74px 14px 74px;
   background: #373737;
   font-family: Inter,  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-}
-.form-group:nth-child(10){
-  margin-left: 20px;
 }
 #upload{
   display: none;
@@ -520,9 +501,9 @@ input::-webkit-inner-spin-button {
   .registration-form{
     margin-top: 20px;
   }
-  .input-city{
+  /* .input-city{
     width: 84%;
-  }
+  } */
   .photo-margin {
     margin-right: 10px;
   }
