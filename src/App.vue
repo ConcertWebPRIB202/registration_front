@@ -9,10 +9,12 @@
           </div>
         </div>
         <Form class="registration-form mt-20" novalidate @submit.prevent="onSubmit">
+          <!-- <CustomInput :tooltip="true" :typeInput="'text'" :requiredStar="true"></CustomInput> -->
+          <!-- <CustomInput name="email" type="email"></CustomInput> -->
           <div class="flex mb-5 justify-center font-size-6 error-message-color-text">
             <label>Поля, отмеченные * являются обязательными</label>
           </div>
-          <div class=" flex mb-5">
+          <div class="flex mb-5">
             <img src="./assets/star.svg" />
             <Field name="login" type="text" :rules="validateLogin" v-slot="{ field, errorMessage, meta }">
               <input v-bind="field" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="login" placeholder="Логин "/>
@@ -21,7 +23,7 @@
           <ErrorMessage name="login" class="mb-5 flex font-size-8 errorMessage error-message-color-text"/>
           <div class="flex mb-5 tooltip-group relative">
             <img src="./assets/star.svg" />
-            <div class="input-wrapper relative">
+            <div class="relative">
               <Field name="password" :type="passwordFieldType" rules="requiredPass|passwordValidate" v-slot="{ field, errorMessage, meta }">
                 <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="password" :type="passwordFieldType" placeholder="Пароль "/>
               </Field>
@@ -34,7 +36,7 @@
           <ErrorMessage name="password" class="mb-5 flex font-size-8 errorMessage error-message-color-text"/>
           <div class="flex mb-5">
             <img src="./assets/star.svg" />
-            <div class="input-wrapper relative">
+            <div class="relative">
               <Field name="passwordConfirm" :type="passwordFieldTypeConfirm" rules="passwordValidate|confirmed:password" v-slot="{ field, errorMessage, meta }">
                 <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="passwordConfirm" :type="passwordFieldTypeConfirm" placeholder="Повторите пароль  "/>
               </Field>
@@ -45,7 +47,7 @@
           <ErrorMessage name="passwordConfirm" class="mb-5 flex font-size-8 errorMessage error-message-color-text"/>
           <div class="flex tooltip-group relative">
             <img src="./assets/star.svg" />
-            <div class="input-wrapper relative">
+            <div class="relative">
               <Field name="phone" type="tel" rules="phoneValidate" v-slot="{ field, errorMessage, meta }">
                 <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="phone" type="tel" v-maska data-maska="+7 ### ### ## ## " placeholder="+7"/>
               </Field>
@@ -53,9 +55,9 @@
             <div v-show="isShownPhone" class="tooltip tooltip-right">Номер должен вводиться без <br> кода страны</div>
             <img @mouseenter="togglePhone" @mouseleave="togglePhone" src="./assets/question mark.svg" />
           </div>
-            <ErrorMessage name="phone" class="mb-5 flex font-size-8 errorMessage error-message-color-text mt-5"/>
+          <ErrorMessage name="phone" class="mb-5 flex font-size-8 errorMessage error-message-color-text mt-5"/>
           <div class="flex mb-5 mt-5 ml-5">
-            <div class="input-wrapper relative city w-full">
+            <div class="relative city w-full">
               <select name="" id="city" class="input-city" v-model="city">
                 <option selected disabled value="">Город: </option>
                 <option v-for="{value, label} in citys" :key="value" :value="value.value">
@@ -115,7 +117,6 @@
   </div>
 </template>
 
-<!-- <script lang="ts"> -->
 <script lang="ts">
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import { defineRule } from 'vee-validate';
@@ -123,6 +124,20 @@ import { required, email, min } from '@vee-validate/rules';
 import { configure } from 'vee-validate';
 import { vMaska } from "maska";
 
+import { useForm } from 'vee-validate';
+import { object, string } from 'yup';
+import { toTypedSchema } from '@vee-validate/yup';
+import CustomInput from './components/Custominput.vue';
+
+const { values, handleSubmit } = useForm({
+  validationSchema: toTypedSchema(
+    object({
+      email: string().required().default('something@email.com'),
+      password: string().required().default(''),
+      name: string().default(''),
+    }),
+  ),
+});
 
 configure({
   validateOnBlur: true, // controls if `blur` events should trigger validation with `handleChange` handler
@@ -219,12 +234,23 @@ defineRule('requiredCheckBox', value => {
           isShowPassword: true,
           isShowPasswordConfirm: true,
 
+          inputSettings: [
+            {
+              targetKey: "targetStarTrue",
+              targetStar: true,
+            },
+            {
+              targetKey: "targetStarFalse",
+              targetStar: false,
+            }
+          ],
         };
     },
     components: {
       Form,
       Field,
       ErrorMessage,
+      CustomInput,
     },
     directives: { maska: vMaska },
     methods: {

@@ -1,5 +1,7 @@
 {
-  "files": [],
+  "files": [
+    "./src/components/Custominput.vue"
+  ],
   "references": [
     {
       "path": "./tsconfig.node.json"
