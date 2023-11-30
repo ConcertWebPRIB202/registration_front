@@ -1,56 +1,67 @@
-<script lang="ts">
-import { toRef, toRefs, computed } from 'vue';
-import { useField } from 'vee-validate';
-
-// const props = defineProps({
-//     name: String,
-//     type: String,
-// });
-
-// const name = computed(() => props.name);
-// const { value, errorMessage } = useField(name);
-
-export default {
-    props:{
-        tooltip:{
-            type: Boolean,
-            default(){
-                return {}
-            }
-        },
-        typeInput:{
-            type: String,
-            default(){
-                return {}
-            }
-        },
-        requiredStar:{
-            type: Boolean,
-            default(){
-                return {}
-            }
-        },
-        toggle:{
-            type: String,
-            default(){
-                return {}
-            }
-        },
+<script setup>
+const emits = defineEmits(['update:value'])
+const props = defineProps({
+    name: {
+        type: String,
+        required: true
     },
-    data() {
-        return {}
+    type: {
+        type: String,
+        default: 'text'
     },
+    value: {
+        type: String,
+        default: ''
+    },
+    placeholder: {
+        type: String,
+        required: true
+    },
+    tooltip: {
+        type: Boolean,
+        default: false
+    },
+    requiredStar: {
+        type: Boolean,
+        default: false
+    },
+    show:{
+        type: String,
+        default: ''
+    },
+    error: {
+        type: Array,
+        required: false
+    }
+})
+
+const updateValue = (e) => {
+    emits('update:value', e.target.value)
+}
+const updateShow = (e) => {
+    emits('update:value', e.target.show)
 }
 </script>
 
 <template>
-    <img v-if="tooltip == true" src="./icons/star.svg" />
-    <input v-if="typeInput == 'text'" :type="typeInput" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0" placeholder="Логин "/>
-    <input v-if="typeInput == 'email'" :type="typeInput" name="email" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0" placeholder="Логин "/>
-    <input v-if="typeInput == 'password'" :type="typeInput" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0" placeholder="Логин "/>
-    <img v-if="requiredStar == true" src="./icons/question mark.svg" />
-    <!-- <input @input="handleChange" :value="value" @type="type" />
-    <span>{{ errorMessage }}</span> -->
+    <div class="flex mb-5">
+        <img v-if="requiredStar == true" src="./icons/star.svg" />
+        <input
+        :id="name"
+        :name="name"
+        :type="type"
+        :value="value"
+        :placeholder="placeholder" 
+        @input="updateValue"
+        class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0" 
+        >
+        <img v-if="tooltip == true" src="./icons/question mark.svg" />
+    </div>
+    <TransitionGroup>
+        <div v-for="element of error" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text">
+            {{ element.$message }}
+        </div>
+    </TransitionGroup>
 </template>
 
 <style scoped>

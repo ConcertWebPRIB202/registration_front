@@ -1,3 +1,125 @@
+<script setup>
+import { reactive, ref , computed } from 'vue'; 
+import useVuelidate from '@vuelidate/core'
+import {helpers, minLength, maxLength, email, numeric, sameAs, required} from '@vuelidate/validators'
+import axios from 'axios';
+import { vMaska } from "maska";
+import CustomInput from './components/Custominput.vue';
+import Checkbox from './components/Checkbox.vue';
+
+const review = reactive({
+  login: '',
+  password: '',
+  passwordConfirm: '',
+  phone: '',
+  city: '',
+  citys: [
+            { value: 'Moscov', label: "Москва"},
+            { value: 'Volgograd', label: "Волгоград"},
+            { value: 'Omsk', label: "Омск"},
+            { value: 'Ekaterinburg', label: "Екатеринбург"},
+            { value: 'Tomsk', label: "Томск"},
+          ],
+  email: '',
+  gender: true,
+  photo: null,
+  photo_look: null,
+  consent: false,
+})
+
+const uploadFile = (e) => {
+  const file_look = e.target.files[0].name;
+  review.photo_look = file_look;
+  const file = e.target.files[0];
+  review.photo = file;
+  // console.log(e.target.files[0].name)
+}
+
+const isShown = ref(false)
+
+const toggle = () => {
+  return isShown.value = !isShown.value;
+}
+
+const isShownPhone = ref(false)
+
+const togglePhone = () => {
+  return isShownPhone.value = !isShownPhone.value;
+}
+
+const isShownPhoto = ref(false)
+
+const togglePhoto = () => {
+  return isShownPhoto.value = !isShownPhoto.value;
+}
+
+const isShowPassword = ref(true)
+const passwordFieldType = ref("password")
+
+const switchVisibility = () => {
+  return `${passwordFieldType.value = passwordFieldType.value === "password" ? "text" : "password"} ${isShowPassword.value = !isShowPassword.value}`;
+}
+
+const isShowPasswordConfirm = ref(true)
+const passwordFieldTypeConfirm = ref("password")
+
+const switchVisibilityConfirm = () => {
+  return `${passwordFieldTypeConfirm.value = passwordFieldTypeConfirm.value === "password" ? "text" : "password"} ${isShowPasswordConfirm.value = !isShowPasswordConfirm.value}`;
+}
+
+const nameField = ref('')
+const emailField = ref('')
+const passwordField = ref('')
+const passwordFieldConfirm = ref('')
+
+const rules = computed(() => ({
+  nameField: {
+    minLength: helpers.withMessage('Логин должен состоять минимум из 8 симвобов', minLength(6)),
+    required: helpers.withMessage('Логин не введен', required)
+  },
+  passwordFieldConfirm: {
+    sameAsPassword: helpers.withMessage('Пароли не совпадают', sameAs(passwordField.value)),
+    required: helpers.withMessage('Пароль не введен', required)
+  },
+  emailField: {
+    email: helpers.withMessage('Почта введена некорректно', email),
+    required: helpers.withMessage('Почта не введена', required)
+  },
+}))
+
+const v = useVuelidate(rules, {nameField, emailField, passwordField, passwordFieldConfirm})
+
+// console.log(v)
+
+
+const submit = () => {
+  // console.log('Submit!');
+
+  v.value.$touch()
+  console.log(v.value.$error)
+  if (v.value.$error) return
+  alert('Forma complited')
+
+
+  // axios.post('/api/review', review, {
+  //   headers: {
+  //     'Content-Type': 'multipart/from-data'
+  //   }
+  // });
+
+  // .then((res) => {
+  //   console.log(res);
+  // })
+  // .catch((err) => {
+  //   console.log(err);
+  // })
+  // .finally(() => {
+  //   console.log('End');
+  // })
+}
+
+</script>
+
 <template>
   <div class="ma overflow-hidden pt-10 pb-10 submain-background-color">
     <div class="container ma b-rd-10 main-background-color">
@@ -8,79 +130,137 @@
             SHAMAN
           </div>
         </div>
-        <Form class="registration-form mt-20" novalidate @submit.prevent="onSubmit">
-          <!-- <CustomInput :tooltip="true" :typeInput="'text'" :requiredStar="true"></CustomInput> -->
-          <!-- <CustomInput name="email" type="email"></CustomInput> -->
+        <form class="registration-form mt-20" @submit.prevent.stop="submit">
           <div class="flex mb-5 justify-center font-size-6 error-message-color-text">
             <label>Поля, отмеченные * являются обязательными</label>
           </div>
-          <div class="flex mb-5">
-            <img src="./assets/star.svg" />
-            <Field name="login" type="text" :rules="validateLogin" v-slot="{ field, errorMessage, meta }">
-              <input v-bind="field" class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="login" placeholder="Логин "/>
-            </Field>
-          </div>
-          <ErrorMessage name="login" class="mb-5 flex font-size-8 errorMessage error-message-color-text"/>
+          <CustomInput
+          :requiredStar="true"
+          name="login"
+          placeholder="Логин "
+          v-model:value="v.nameField.$model"
+          :error="v.nameField.$errors"
+          />
+          <CustomInput
+          :requiredStar="true"
+          :tooltip="true"
+          name="password"
+          :type="passwordFieldType"
+          placeholder="Пароль "
+          v-model:value="passwordField"
+          v-show="isShowPassword"
+          />
+          <CustomInput
+          :requiredStar="true"
+          name="passwordConfirm"
+          :type="passwordFieldTypeConfirm"
+          placeholder="Повторите пароль "
+          v-model:value="v.passwordFieldConfirm.$model"
+          :error="v.passwordFieldConfirm.$errors"
+          />
+          <CustomInput
+          :requiredStar="true"
+          name="email"
+          placeholder="Почта "
+          v-model:value="v.emailField.$model"
+          :error="v.emailField.$errors"
+          />
+          
+
+          <Checkbox
+          
+          />
+          <!-- {{ v }} -->
+
           <div class="flex mb-5 tooltip-group relative">
             <img src="./assets/star.svg" />
             <div class="relative">
-              <Field name="password" :type="passwordFieldType" rules="requiredPass|passwordValidate" v-slot="{ field, errorMessage, meta }">
-                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="password" :type="passwordFieldType" placeholder="Пароль "/>
-              </Field>
+              <input
+                :type="passwordFieldType" 
+                v-model.trim="review.password" 
+                placeholder="Пароль "
+
+                class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8"  
+                >
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPassword" type="password" @click="switchVisibility"/>
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" v-show="!isShowPassword" type="password" @click="switchVisibility" />
             </div>
             <div v-show="isShown" class="tooltip tooltip-bottom">Пароль должен состоять из <br> латинских символов. <br> Должен содержать знаки и <br> заглавные буквы</div>
             <img  @mouseenter="toggle" @mouseleave="toggle" src="./assets/question mark.svg" />
           </div>
-          <ErrorMessage name="password" class="mb-5 flex font-size-8 errorMessage error-message-color-text"/>
           <div class="flex mb-5">
             <img src="./assets/star.svg" />
             <div class="relative">
-              <Field name="passwordConfirm" :type="passwordFieldTypeConfirm" rules="passwordValidate|confirmed:password" v-slot="{ field, errorMessage, meta }">
-                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="passwordConfirm" :type="passwordFieldTypeConfirm" placeholder="Повторите пароль  "/>
-              </Field>
+              <input
+              :type="passwordFieldTypeConfirm"
+              v-model.trim="review.passwordConfirm"
+              placeholder="Повторите пароль  "
+
+              class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8"
+              >
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPasswordConfirm" type="password" @click="switchVisibilityConfirm"/>
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" v-show="!isShowPasswordConfirm" type="password" @click="switchVisibilityConfirm" />
             </div>
           </div>
-          <ErrorMessage name="passwordConfirm" class="mb-5 flex font-size-8 errorMessage error-message-color-text"/>
           <div class="flex tooltip-group relative">
             <img src="./assets/star.svg" />
             <div class="relative">
-              <Field name="phone" type="tel" rules="phoneValidate" v-slot="{ field, errorMessage, meta }">
-                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="phone" type="tel" v-maska data-maska="+7 ### ### ## ## " placeholder="+7"/>
-              </Field>
+              <input 
+              type="tel" 
+              v-model.trim="review.phone" 
+              v-maska data-maska="+7 ### ### ## ## " 
+              placeholder="+7"
+              
+              class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" 
+              
+              >
             </div>
             <div v-show="isShownPhone" class="tooltip tooltip-right">Номер должен вводиться без <br> кода страны</div>
             <img @mouseenter="togglePhone" @mouseleave="togglePhone" src="./assets/question mark.svg" />
           </div>
-          <ErrorMessage name="phone" class="mb-5 flex font-size-8 errorMessage error-message-color-text mt-5"/>
           <div class="flex mb-5 mt-5 ml-5">
             <div class="relative city w-full">
-              <select name="" id="city" class="input-city" v-model="city">
+              <select name="" id="city" class="input-city" v-model="review.city">
                 <option selected disabled value="">Город: </option>
-                <option v-for="{value, label} in citys" :key="value" :value="value.value">
+                <option v-for="{value, label} in review.citys" :key="value" :value="value.value">
                 {{ label }}
                 </option>
               </select>
             </div>
           </div>
-          <div class="flex flex-col mb-5">
+          <!-- <div class="flex flex-col mb-5">
             <div class="mb-5">
               <img src="./assets/star.svg" />
-              <Field name="email" type="email" rules="emailValidate" v-slot="{ field, errorMessage, meta }">
-                <input v-bind="field" class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" :class="errorMessage ? 'borderErrors' : ''" v-model.trim="email" type="email" placeholder="Почта  "/>
-              </Field>
+                <input
+                type="email" 
+                v-model.trim="review.email" 
+                placeholder="Почта  "
+                
+                class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" 
+                
+                >
             </div>
-            <ErrorMessage name="email" class="mb-5 flex font-size-8 errorMessage error-message-color-text"/>
-          </div>
+          </div> -->
           <div class="flex mb-5 gender-body flex-col ml-13">
             <label class="gender-label font-size-8 text-color-white">Пол: </label>
             <div class="gender-block flex grid-items-center">
-              <input class="custom-radio" type="radio" name="gender" id="gender-male" value="male" v-model.trim="gender">
+              <input 
+                class="custom-radio" 
+                type="radio" 
+                name="gender" 
+                id="gender-male" 
+                :value="true" 
+                v-model.trim="review.gender"
+              >
               <label for="gender-male" class="gender-label font-size-8 text-color-white sex mr-16">Муж</label>
-              <input class="custom-radio" type="radio" name="gender" id="gender-femile" value="famel" v-model.trim="gender">
+              <input 
+                class="custom-radio" 
+                type="radio" 
+                name="gender" 
+                id="gender-femile" 
+                :value="false" 
+                v-model.trim="review.gender"
+              >
               <label for="gender-femile" class="gender-label font-size-8 text-color-white sex mr-8">Жен</label>
             </div>
           </div>
@@ -93,205 +273,31 @@
               <div v-show="isShownPhoto" class="tooltip tooltip-top">Прикрепите фото первой <br> страницы паспорта.Фото <br> должно быть в форматах <br> jpg, jpeg, png, bmp, <br> gif, svg или webp</div>
               <img @mouseenter="togglePhoto" @mouseleave="togglePhoto" class="photo-margin" src="./assets/question mark.svg">
             </div>
-            <Field name="upload" type="file" rules="requiredPhoto" v-slot="{ field, errorMessage, meta }">
-                <input v-bind="field" type="file" id='upload' accept="image/x-png,image/gif,image/jpeg,image/jpg,image/bmp,image/svg,image/webp" />
-                <label for='upload'  class="input-file" :class="meta.dirty ? '' : 'borderErrors'"><img src="./assets/upload.svg"></label>
-            </Field>
-            <ErrorMessage name="upload" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text"/>
+            <input 
+            type="file" 
+            id='upload' 
+            accept="image/x-png,image/gif,image/jpeg,image/jpg,image/bmp,image/svg,image/webp"
+            @change="uploadFile"
+            >
+            <label for='upload'  class="input-file"><img src="./assets/upload.svg"></label>
           </div>
-          <div class="mb-5 checkbox-body">
+          <div class="flex mb-5 justify-center font-size-6 error-message-color-text">
+            {{ review.photo_look }}
+          </div>
+          <!-- <div class="mb-5 checkbox-body">
             <img src="./assets/star.svg" />
-            <Field name="consent" type="checkbox" rules="requiredCheckBox" id="consent" v-slot="{ field, errorMessage, meta }">
-              <input v-bind="field" type="checkbox" class="custom-checkbox" id="consent" v-model="consent">
-              <label for="consent" class="checkbox-label flex font-size-8 text-color-white widthchecbox" >Я даю свое согласие на обработку персональных данных</label>
-            </Field>
-          </div>
-          <ErrorMessage name="consent" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text"/>
+            <input type="checkbox" class="custom-checkbox" id="consent" v-model="review.consent">
+            <label for="consent" class="checkbox-label flex font-size-8 text-color-white widthchecbox" >Я даю свое согласие на обработку персональных данных</label>
+          </div> -->
           <button type="submit" class="form-button-click ml-12 cursor-pointer border-rd-20 border-0 text-color-white submain-background-color font-size-8">Зарегистрироваться</button>
           <p class="loginIn text-color-white underline text-center mt-16 mb-24 mr-20 font-size-6">
             <router-link to="#">Уже есть аккаунт? Войти</router-link>
           </p>
-        </Form>
+        </form>
       </div>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Field, Form, ErrorMessage } from 'vee-validate';
-import { defineRule } from 'vee-validate';
-import { required, email, min } from '@vee-validate/rules';
-import { configure } from 'vee-validate';
-import { vMaska } from "maska";
-
-import { useForm } from 'vee-validate';
-import { object, string } from 'yup';
-import { toTypedSchema } from '@vee-validate/yup';
-import CustomInput from './components/Custominput.vue';
-
-const { values, handleSubmit } = useForm({
-  validationSchema: toTypedSchema(
-    object({
-      email: string().required().default('something@email.com'),
-      password: string().required().default(''),
-      name: string().default(''),
-    }),
-  ),
-});
-
-configure({
-  validateOnBlur: true, // controls if `blur` events should trigger validation with `handleChange` handler
-  validateOnChange: true, // controls if `change` events should trigger validation with `handleChange` handler
-  validateOnInput: false, // controls if `input` events should trigger validation with `handleChange` handler
-  validateOnModelUpdate: true, // controls if `update:modelValue` events should trigger validation with `handleChange` handler
-});
-
-defineRule('confirmed', (value, [target], ctx) => {
-  if (value === ctx.form[target]) {
-    return true;
-  }
-  return 'Пароли не совпадают!';
-});
-
-defineRule('requiredPass', value => {
-  if (!value || !value.length) {
-    return 'Пароль не заполнен!';
-  }
-  return true;
-});
-
-defineRule('passwordValidate', value => {
-  if (!/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g.test(value)) {
-    return 'Пароль введен не корректно!';
-  }
-  return true;
-});
-
-defineRule('phoneValidate', value => {
-  if (!value || !value.length) {
-    return 'Телефон не заполнен!';
-  }
-  if (!/^([+]?[0-9\s-\(\)]{10,25})*$/i.test(value)) {
-    return 'Телефон введен не корректно!';
-  }
-  return true;
-});
-
-defineRule('emailValidate', value => {
-  if (!value || !value.length) {
-    return 'Почта не введена!';
-  }
-  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i;
-  if (!regex.test(value)) {
-    return 'Почта введена не корректно!';
-  }
-  return true;
-});
-
-defineRule('requiredPhoto', value => {
-  if (!value) {
-    return 'Фото паспорта не добавлено!';
-  }
-  return true;
-});
-
-defineRule('requiredCheckBox', value => {
-    if (value) {
-      return true;
-    }
-    return 'Согласие не дано!';
-});
-
-
-  export default{
-    data() {
-        return {
-          login: "",
-          password: "",
-          passwordConfirm: "",
-          phone: "",
-          city: '',
-          citys: [
-            { value: 'Moscov', label: "Москва"},
-            { value: 'Volgograd', label: "Волгоград"},
-            { value: 'Omsk', label: "Омск"},
-            { value: 'Ekaterinburg', label: "Екатеринбург"},
-            { value: 'Tomsk', label: "Томск"},
-          ],
-          email: "",
-          gender: "",
-          consent: false,
-          errors:[],
-
-          errorlogin: '',
-
-          passwordFieldType: "password",
-          passwordFieldTypeConfirm: "password",
-
-          isShown: false,
-          isShownPhone: false,
-          isShownPhoto: false,
-          isShowPassword: true,
-          isShowPasswordConfirm: true,
-
-          inputSettings: [
-            {
-              targetKey: "targetStarTrue",
-              targetStar: true,
-            },
-            {
-              targetKey: "targetStarFalse",
-              targetStar: false,
-            }
-          ],
-        };
-    },
-    components: {
-      Form,
-      Field,
-      ErrorMessage,
-      CustomInput,
-    },
-    directives: { maska: vMaska },
-    methods: {
-      RegisterUser(){
-        console.log("Вы успешно зарегистрировались!");
-      },
-      toggle() {
-        this.isShown = !this.isShown;
-      },
-      togglePhone() {
-        this.isShownPhone = !this.isShownPhone;
-      },
-      togglePhoto() {
-        this.isShownPhoto = !this.isShownPhoto;
-      },
-      switchVisibility() {
-        this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
-        this.isShowPassword  = !this.isShowPassword;
-      },
-      switchVisibilityConfirm() {
-        this.passwordFieldTypeConfirm = this.passwordFieldTypeConfirm === "password" ? "text" : "password";
-        this.isShowPasswordConfirm  = !this.isShowPasswordConfirm;
-      },
-
-      onSubmit() {
-        // console.log('Submitted');
-        this.$router.push('http://localhost:5173/public/test.html');
-      },
-
-      validateLogin(value){
-        if (!value) {
-          return 'Логин не введен!';
-        }
-        if (value.length < 8) {
-          return 'Логин менее 8-ми символов!';
-        }
-        return true;
-      },
-    },
-};
-</script>
 
 <style scoped>
 /* Настройка кастомного чекбокса */

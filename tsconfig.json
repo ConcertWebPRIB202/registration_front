@@ -1,6 +1,7 @@
 {
   "files": [
-    "./src/components/Custominput.vue"
+    "./src/components/Custominput.vue",
+    "./src/components/Checkbox.vue"
   ],
   "references": [
     {
