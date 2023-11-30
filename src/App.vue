@@ -6,6 +6,9 @@ import axios from 'axios';
 import { vMaska } from "maska";
 import CustomInput from './components/Custominput.vue';
 import Checkbox from './components/Checkbox.vue';
+import RadioButton from './components/RadioButton.vue';
+import CustomInputPhone from './components/CustomPhone.vue';
+import CustomInputPassword from './components/CustomPassword.vue';
 
 const review = reactive({
   login: '',
@@ -67,14 +70,19 @@ const switchVisibilityConfirm = () => {
   return `${passwordFieldTypeConfirm.value = passwordFieldTypeConfirm.value === "password" ? "text" : "password"} ${isShowPasswordConfirm.value = !isShowPasswordConfirm.value}`;
 }
 
+const errorPasword = ref('')
+const phonetype = ref("tel")
+
 const nameField = ref('')
-const emailField = ref('')
 const passwordField = ref('')
 const passwordFieldConfirm = ref('')
+const phoneField = ref('')
+const emailField = ref('')
+const checkBoxActive = ref(false)
 
 const rules = computed(() => ({
   nameField: {
-    minLength: helpers.withMessage('Логин должен состоять минимум из 8 симвобов', minLength(6)),
+    minLength: helpers.withMessage('Логин менее 8-ми символов', minLength(8)),
     required: helpers.withMessage('Логин не введен', required)
   },
   passwordFieldConfirm: {
@@ -85,9 +93,12 @@ const rules = computed(() => ({
     email: helpers.withMessage('Почта введена некорректно', email),
     required: helpers.withMessage('Почта не введена', required)
   },
+  phoneField: {
+    required: helpers.withMessage('Телефон не введен', required)
+  }
 }))
 
-const v = useVuelidate(rules, {nameField, emailField, passwordField, passwordFieldConfirm})
+const v = useVuelidate(rules, {nameField, emailField, passwordField, passwordFieldConfirm, phoneField})
 
 // console.log(v)
 
@@ -135,13 +146,14 @@ const submit = () => {
             <label>Поля, отмеченные * являются обязательными</label>
           </div>
           <CustomInput
-          :requiredStar="true"
-          name="login"
-          placeholder="Логин "
-          v-model:value="v.nameField.$model"
-          :error="v.nameField.$errors"
+            :requiredStar="true"
+            name="login"
+            placeholder="Логин "
+            v-model:value="v.nameField.$model"
+            :error="v.nameField.$errors"
+            class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8"  
           />
-          <CustomInput
+          <!-- <CustomInput
           :requiredStar="true"
           :tooltip="true"
           name="password"
@@ -157,29 +169,14 @@ const submit = () => {
           placeholder="Повторите пароль "
           v-model:value="v.passwordFieldConfirm.$model"
           :error="v.passwordFieldConfirm.$errors"
-          />
-          <CustomInput
-          :requiredStar="true"
-          name="email"
-          placeholder="Почта "
-          v-model:value="v.emailField.$model"
-          :error="v.emailField.$errors"
-          />
-          
-
-          <Checkbox
-          
-          />
-          <!-- {{ v }} -->
-
+          /> -->
           <div class="flex mb-5 tooltip-group relative">
             <img src="./assets/star.svg" />
             <div class="relative">
               <input
                 :type="passwordFieldType" 
-                v-model.trim="review.password" 
+                v-model.trim="passwordField" 
                 placeholder="Пароль "
-
                 class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8"  
                 >
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPassword" type="password" @click="switchVisibility"/>
@@ -193,54 +190,51 @@ const submit = () => {
             <div class="relative">
               <input
               :type="passwordFieldTypeConfirm"
-              v-model.trim="review.passwordConfirm"
+              v-model.trim="v.passwordFieldConfirm.$model"
               placeholder="Повторите пароль  "
-
               class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8"
               >
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPasswordConfirm" type="password" @click="switchVisibilityConfirm"/>
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" v-show="!isShowPasswordConfirm" type="password" @click="switchVisibilityConfirm" />
             </div>
           </div>
-          <div class="flex tooltip-group relative">
-            <img src="./assets/star.svg" />
+          <TransitionGroup>
+            <div v-for="element of v.passwordFieldConfirm.$errors" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text">
+              {{ element.$message }}
+            </div>
+          </TransitionGroup>
+          <div class="flex tooltip-group relative phoneflex">
+            <img class="starPhone2" src="./assets/star.svg" />
             <div class="relative">
-              <input 
-              type="tel" 
-              v-model.trim="review.phone" 
-              v-maska data-maska="+7 ### ### ## ## " 
-              placeholder="+7"
-              
-              class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" 
-              
-              >
+              <CustomInputPhone
+                :requiredStar="true"
+                name="phone"
+                placeholder="+7"
+                :type="phonetype"
+                v-model:value="v.phoneField.$model"
+                :error="v.phoneField.$errors"
+              />
             </div>
             <div v-show="isShownPhone" class="tooltip tooltip-right">Номер должен вводиться без <br> кода страны</div>
-            <img @mouseenter="togglePhone" @mouseleave="togglePhone" src="./assets/question mark.svg" />
+            <img @mouseenter="togglePhone" @mouseleave="togglePhone" class="starPhone" src="./assets/question mark.svg" />
           </div>
           <div class="flex mb-5 mt-5 ml-5">
             <div class="relative city w-full">
               <select name="" id="city" class="input-city" v-model="review.city">
                 <option selected disabled value="">Город: </option>
-                <option v-for="{value, label} in review.citys" :key="value" :value="value.value">
-                {{ label }}
+                <option v-for="option in review.citys" :value="option.value">
+                  {{ option.label }}
                 </option>
               </select>
             </div>
           </div>
-          <!-- <div class="flex flex-col mb-5">
-            <div class="mb-5">
-              <img src="./assets/star.svg" />
-                <input
-                type="email" 
-                v-model.trim="review.email" 
-                placeholder="Почта  "
-                
-                class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8" 
-                
-                >
-            </div>
-          </div> -->
+          <CustomInput
+            :requiredStar="true"
+            name="email"
+            placeholder="Почта "
+            v-model:value="v.emailField.$model"
+            :error="v.emailField.$errors"
+          />
           <div class="flex mb-5 gender-body flex-col ml-13">
             <label class="gender-label font-size-8 text-color-white">Пол: </label>
             <div class="gender-block flex grid-items-center">
@@ -274,21 +268,22 @@ const submit = () => {
               <img @mouseenter="togglePhoto" @mouseleave="togglePhoto" class="photo-margin" src="./assets/question mark.svg">
             </div>
             <input 
-            type="file" 
-            id='upload' 
-            accept="image/x-png,image/gif,image/jpeg,image/jpg,image/bmp,image/svg,image/webp"
-            @change="uploadFile"
+              type="file" 
+              id='upload' 
+              accept="image/x-png,image/gif,image/jpeg,image/jpg,image/bmp,image/svg,image/webp"
+              @change="uploadFile"
             >
             <label for='upload'  class="input-file"><img src="./assets/upload.svg"></label>
           </div>
-          <div class="flex mb-5 justify-center font-size-6 error-message-color-text">
+          <div class="flex mb-5 justify-center font-size-6 error-message-color-text namephoto">
             {{ review.photo_look }}
           </div>
-          <!-- <div class="mb-5 checkbox-body">
-            <img src="./assets/star.svg" />
-            <input type="checkbox" class="custom-checkbox" id="consent" v-model="review.consent">
-            <label for="consent" class="checkbox-label flex font-size-8 text-color-white widthchecbox" >Я даю свое согласие на обработку персональных данных</label>
-          </div> -->
+          <Checkbox
+            id="consent"
+            name="consent"
+            type="checkbox"
+            v-model:checked="checkBoxActive"
+          />
           <button type="submit" class="form-button-click ml-12 cursor-pointer border-rd-20 border-0 text-color-white submain-background-color font-size-8">Зарегистрироваться</button>
           <p class="loginIn text-color-white underline text-center mt-16 mb-24 mr-20 font-size-6">
             <router-link to="#">Уже есть аккаунт? Войти</router-link>
@@ -300,60 +295,6 @@ const submit = () => {
 </template>
 
 <style scoped>
-/* Настройка кастомного чекбокса */
-.custom-checkbox {
-  position: absolute;
-  z-index: -1;
-  opacity: 0;
-}
-.custom-checkbox+label {
-  display: inline-flex;
-  align-items: center;
-  user-select: none;
-}
-.custom-checkbox+label::before {
-  content: '';
-  display: inline-block;
-  margin-left: 32px;
-  margin-right: 32px;
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-  flex-grow: 0;
-  border: 1px solid #373737;
-  border-radius: 0.25em;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 50% 50%;
-  background: #373737;
-}
-.custom-checkbox:checked+label::before {
-  border-color: #F7F4A4;
-  background-color: #F7F4A4;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2ffff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
-}
-/* стили при наведении курсора на checkbox */
-.custom-checkbox:not(:disabled):not(:checked)+label:hover::before {
-  border-color: #F7F4A4;
-}
-/* стили для активного состояния чекбокса (при нажатии на него) */
-.custom-checkbox:not(:disabled):active+label::before {
-  background-color: #F7F4A4;
-  border-color: #F7F4A4;
-}
-/* стили для чекбокса, находящегося в фокусе */
-.custom-checkbox:focus+label::before {
-  box-shadow: 0 0 0 0.2rem rgba(239, 255, 57, 0.25);
-}
-/* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
-.custom-checkbox:focus:not(:checked)+label::before {
-  border-color: #80bdff;
-}
-/* стили для чекбокса, находящегося в состоянии disabled */
-.custom-checkbox:disabled+label::before {
-  background-color: #e9ecef;
-}
-
 /* Настройка кастомных radio-battons */
   /* для элемента input c type="radio" */
   .custom-radio {
@@ -515,8 +456,20 @@ input::-webkit-inner-spin-button {
 .photo-margin{
   margin-right: 74px;
 }
+.phoneflex{
+  align-items: flex-start;
+}
 .tooltip-right{
   right: -46%;
+}
+.starPhone{
+  margin-top: 10px;
+}
+.starPhone2{
+  margin-top: 20px;
+}
+.namephoto{
+  margin-right: 70px;
 }
 @media (max-width: 1440px) {
   .container{
@@ -533,9 +486,7 @@ input::-webkit-inner-spin-button {
   .registration-form{
     margin-top: 20px;
   }
-  /* .input-city{
-    width: 84%;
-  } */
+
   .photo-margin {
     margin-right: 10px;
   }

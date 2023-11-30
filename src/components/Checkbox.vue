@@ -1,4 +1,5 @@
 <script setup>
+const emits = defineEmits(['update:checked'])
 const props = defineProps({
     id: {
         type: String,
@@ -8,17 +9,27 @@ const props = defineProps({
         type: String,
         default: ''
     },
-    value: {
-        type: String,
-        default: ''
+    checked:{
+        type: Boolean,
+        default: false
     }
 })
+const handleClick = (event) => {
+    emits('update:checked', event.target.checked)
+}
 </script>
 
 <template>
-    <div class="mb-5 checkbox-body">
+    <div class="mb-5 checkbox-body checkbox-width">
         <img src="./icons/star.svg" />
-        <input type="checkbox" class="custom-checkbox" id="consent">
+        <input 
+        :id="name"
+        :name="name"
+        type="checkbox" 
+        :checked="checked"
+        class="custom-checkbox" 
+        @input="handleClick($event)"
+        >
         <label for="consent" class="checkbox-label flex font-size-8 text-color-white widthchecbox" >Я даю свое согласие на обработку персональных данных</label>
     </div>
 </template>
@@ -76,5 +87,9 @@ const props = defineProps({
 /* стили для чекбокса, находящегося в состоянии disabled */
 .custom-checkbox:disabled+label::before {
     background-color: #e9ecef;
+}
+.checkbox-width{
+    display: flex;
+    width: 630px;
 }
 </style>

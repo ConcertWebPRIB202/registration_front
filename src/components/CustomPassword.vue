@@ -65,10 +65,5 @@ const updateShow = (e) => {
 </template>
 
 <style scoped>
-.input{
-    background: #373737;
-}
-.errorMessage{
-    margin-left: 52px;
-}
+
 </style>

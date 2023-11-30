@@ -1,4 +1,5 @@
 <script setup>
+import { vMaska } from "maska";
 const emits = defineEmits(['update:value'])
 const props = defineProps({
     name: {
@@ -25,7 +26,7 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    show:{
+    valueUpdate:{
         type: String,
         default: ''
     },
@@ -39,24 +40,21 @@ const updateValue = (e) => {
     emits('update:value', e.target.value)
 }
 const updateShow = (e) => {
-    emits('update:value', e.target.show)
+    emits('update:value', e.target.valueUpdate)
 }
 </script>
 
 <template>
-    <div class="flex mb-5">
-        <img v-if="requiredStar == true" src="./icons/star.svg" />
-        <input
-        :id="name"
-        :name="name"
-        :type="type"
-        :value="value"
-        :placeholder="placeholder" 
-        @input="updateValue"
-        class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0"
-        >
-        <img v-if="tooltip == true" src="./icons/question mark.svg" />
-    </div>
+    <input
+    :id="name"
+    :name="name"
+    :type="type"
+    :value="value"
+    :placeholder="placeholder" 
+    v-maska data-maska="+7 ### ### ## ##"
+    @input="updateValue"
+    class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0"
+    >
     <TransitionGroup>
         <div v-for="element of error" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text">
             {{ element.$message }}
@@ -69,6 +67,6 @@ const updateShow = (e) => {
     background: #373737;
 }
 .errorMessage{
-    margin-left: 52px;
+    margin-left: 32px;
 }
 </style>
