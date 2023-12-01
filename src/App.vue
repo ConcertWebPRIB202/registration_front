@@ -3,10 +3,8 @@ import { reactive, ref , computed } from 'vue';
 import useVuelidate from '@vuelidate/core'
 import {helpers, minLength, maxLength, email, numeric, sameAs, required} from '@vuelidate/validators'
 import axios from 'axios';
-import { vMaska } from "maska";
 import CustomInput from './components/Custominput.vue';
 import Checkbox from './components/Checkbox.vue';
-import RadioButton from './components/RadioButton.vue';
 
 const review = reactive({
   login: '',
@@ -36,40 +34,7 @@ const uploadFile = (e) => {
   // console.log(review.photo)
 }
 
-const isShown = ref(false)
-
-const toggle = () => {
-  return isShown.value = !isShown.value;
-}
-
-const isShownPhone = ref(false)
-
-const togglePhone = () => {
-  return isShownPhone.value = !isShownPhone.value;
-}
-
-const isShownPhoto = ref(false)
-
-const togglePhoto = () => {
-  return isShownPhoto.value = !isShownPhoto.value;
-}
-
-const isShowPassword = ref(true)
-const passwordFieldType = ref("password")
-
-const switchVisibility = () => {
-  return `${passwordFieldType.value = passwordFieldType.value === "password" ? "text" : "password"} ${isShowPassword.value = !isShowPassword.value}`;
-}
-
-const isShowPasswordConfirm = ref(true)
-const passwordFieldTypeConfirm = ref("password")
-
-const switchVisibilityConfirm = () => {
-  return `${passwordFieldTypeConfirm.value = passwordFieldTypeConfirm.value === "password" ? "text" : "password"} ${isShowPasswordConfirm.value = !isShowPasswordConfirm.value}`;
-}
-
 const errorPasword = ref('')
-const phonetype = ref("tel")
 
 const nameField = ref('')
 const passwordField = ref('')
@@ -77,6 +42,8 @@ const passwordFieldConfirm = ref('')
 const phoneField = ref('')
 const emailField = ref('')
 const checkBoxActive = ref(false)
+
+const passAlpha = helpers.regex("/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/");
 
 const checkCheckbox = (value) => {
   if(value == true) {
@@ -90,6 +57,11 @@ const rules = computed(() => ({
   nameField: {
     minLength: helpers.withMessage('Логин менее 8-ми символов', minLength(8)),
     required: helpers.withMessage('Логин не введен', required)
+  },
+  passwordField: {
+    minLength: helpers.withMessage('Пароль менее 8-ми символов', minLength(8)),
+    passAlpha: helpers.withMessage('Пароль введен не корректно!', passAlpha),
+    required: helpers.withMessage('Пароль не введен', required)
   },
   passwordFieldConfirm: {
     sameAsPassword: helpers.withMessage('Пароли не совпадают', sameAs(passwordField.value)),
@@ -163,15 +135,15 @@ const submit = () => {
             :tooltip="true"
             tooltiptext="Пароль должен состоять из <br> латинских символов. <br> Должен содержать знаки и <br> заглавные буквы"
             name="password"
-            :type="passwordFieldType"
+            type="password"
             placeholder="Пароль "
-            v-model:value="passwordField"
-            :error="v.passwordFieldConfirm.$errors"
+            v-model:value="v.passwordField.$model"
+            :error="v.passwordField.$errors"
           />
           <CustomInput
             :requiredStar="true"
             name="passwordConfirm"
-            :type="passwordFieldTypeConfirm"
+            type="password"
             placeholder="Повторите пароль "
             v-model:value="v.passwordFieldConfirm.$model"
             :error="v.passwordFieldConfirm.$errors"
@@ -182,7 +154,7 @@ const submit = () => {
             tooltiptext="Номер должен вводится <br> без кода страны"
             name="phone"
             placeholder="+7"
-            :type="phonetype"
+            type="tel"
             mask="+7 ### ### ## ## "
             v-model:value="v.phoneField.$model"
             :error="v.phoneField.$errors"
