@@ -109,8 +109,6 @@ const rules = computed(() => ({
 
 const v = useVuelidate(rules, {nameField, emailField, passwordField, passwordFieldConfirm, phoneField, checkBoxActive})
 
-// console.log(v)
-
 const submit = () => {
   // console.log('Submit!');
 
@@ -159,12 +157,11 @@ const submit = () => {
             placeholder="Логин "
             v-model:value="v.nameField.$model"
             :error="v.nameField.$errors"
-            :passvordlook="false"
-            :passwordclose="false"
           />
           <CustomInput
             :requiredStar="true"
             :tooltip="true"
+            tooltiptext="Пароль должен состоять из <br> латинских символов. <br> Должен содержать знаки и <br> заглавные буквы"
             name="password"
             :type="passwordFieldType"
             placeholder="Пароль "
@@ -182,64 +179,14 @@ const submit = () => {
           <CustomInput
             :requiredStar="true"
             :tooltip="true"
+            tooltiptext="Номер должен вводится <br> без кода страны"
             name="phone"
             placeholder="+7"
             :type="phonetype"
+            mask="+7 ### ### ## ## "
             v-model:value="v.phoneField.$model"
             :error="v.phoneField.$errors"
-            :passvordlook="false"
-            :passwordclose="false"
           />
-          <!-- <div class="flex mb-5 tooltip-group relative">
-            <img src="./assets/star.svg" />
-            <div class="relative">
-              <input
-                :type="passwordFieldType" 
-                v-model.trim="passwordField" 
-                placeholder="Пароль "
-                class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8"
-                :class="v.passwordFieldConfirm.$errors.length > 0 ? 'borderErrors' : ''"  
-                >
-              <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPassword" type="password" @click="switchVisibility"/>
-              <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" v-show="!isShowPassword" type="password" @click="switchVisibility" />
-            </div>
-            <div v-show="isShown" class="tooltip tooltip-bottom">Пароль должен состоять из <br> латинских символов. <br> Должен содержать знаки и <br> заглавные буквы</div>
-            <img  @mouseenter="toggle" @mouseleave="toggle" src="./assets/question mark.svg" />
-          </div>
-          <div class="flex mb-5">
-            <img src="./assets/star.svg" />
-            <div class="relative">
-              <input
-              :type="passwordFieldTypeConfirm"
-              v-model.trim="v.passwordFieldConfirm.$model"
-              placeholder="Повторите пароль  "
-              class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8"
-              :class="v.passwordFieldConfirm.$errors.length > 0 ? 'borderErrors' : ''"
-              >
-              <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPasswordConfirm" type="password" @click="switchVisibilityConfirm"/>
-              <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" v-show="!isShowPasswordConfirm" type="password" @click="switchVisibilityConfirm" />
-            </div>
-          </div>
-          <TransitionGroup>
-            <div v-for="element of v.passwordFieldConfirm.$errors" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text">
-              {{ element.$message }}
-            </div>
-          </TransitionGroup> -->
-          <!-- <div class="flex tooltip-group relative phoneflex">
-            <img class="starPhone2" src="./assets/star.svg" />
-            <div class="relative">
-              <CustomInputPhone
-                :requiredStar="true"
-                name="phone"
-                placeholder="+7"
-                :type="phonetype"
-                v-model:value="v.phoneField.$model"
-                :error="v.phoneField.$errors"
-              />
-            </div>
-            <div v-show="isShownPhone" class="tooltip tooltip-right">Номер должен вводиться без <br> кода страны</div>
-            <img @mouseenter="togglePhone" @mouseleave="togglePhone" class="starPhone" src="./assets/question mark.svg" />
-          </div> -->
           <div class="flex mb-5 mt-5 ml-5">
             <div class="relative city w-full">
               <select name="" id="city" class="input-city" v-model="review.city">
@@ -256,8 +203,6 @@ const submit = () => {
             placeholder="Почта "
             v-model:value="v.emailField.$model"
             :error="v.emailField.$errors"
-            :passvordlook="false"
-            :passwordclose="false"
           />
           <div class="flex mb-5 gender-body flex-col ml-13">
             <label class="gender-label font-size-8 text-color-white">Пол: </label>
@@ -288,7 +233,7 @@ const submit = () => {
                 <img src="./assets/star.svg" />
                 <label class="photo-label font-size-8 text-color-white ml-8">Фото паспорта: </label>
               </div>
-              <div v-show="isShownPhoto" class="tooltip tooltip-top">Прикрепите фото первой <br> страницы паспорта.Фото <br> должно быть в форматах <br> jpg, jpeg, png, bmp, <br> gif, svg или webp</div>
+              <div v-show="isShownPhoto" class="tooltip">Прикрепите фото первой <br> страницы паспорта.Фото <br> должно быть в форматах <br> jpg, jpeg, png, bmp, <br> gif, svg или webp</div>
               <img @mouseenter="togglePhoto" @mouseleave="togglePhoto" class="photo-margin" src="./assets/question mark.svg">
             </div>
             <input 
@@ -408,12 +353,14 @@ input::-webkit-inner-spin-button {
 .tooltip{
   padding: 10px;
   border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   border: 2px solid #F7F4A4;
   position: absolute;
-  top: -70px;
-  right: -42%;
+  top: 50%;
+  left: 90%;
+  width: 347px;
+  z-index: 2;
   color: #FFFFFF;
   font-size: 24px;
   text-align: center;
@@ -520,7 +467,7 @@ input::-webkit-inner-spin-button {
     margin-right: 10px;
   }
   .tooltip{
-    right: 0;
+    left: 0;
     top: 100%;
     z-index: 999;
     font-size: 32px;
@@ -535,7 +482,7 @@ input::-webkit-inner-spin-button {
     font-size: 5rem;
   }
   .tooltip{
-    right: -2%;
+    left: -2%;
   }
 }
 </style>

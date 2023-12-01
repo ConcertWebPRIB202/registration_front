@@ -1,4 +1,7 @@
 <script setup>
+import { ref, reactive } from 'vue'
+import { vMaska } from "maska"
+
 const emits = defineEmits(['update:value'])
 const props = defineProps({
     name: {
@@ -29,64 +32,55 @@ const props = defineProps({
         type: Boolean,
         default: ''
     },
-    passvordlook:{
-        type: Boolean,
-        default: ''
-    },
-    passwordclose:{
-        type: Boolean,
-        default: ''
-    },
     error: {
         type: Array,
         required: false
+    },
+    tooltiptext: {
+        type: String,
+        default: ''
+    },
+    mask: {
+        type: String,
+        default: ''
     }
 })
 
-// console.log(props.error)
+const isShow = ref(false)
+const custom_type = ref(props.type)
 
 const updateValue = (e) => {
-    emits('update:value', e.target.value)
+    emits('update:value', e.target.value);
 }
+
+const options = reactive({
+  mask: ref(props.mask),
+  eager: true
+})
 </script>
 
 <template>
-    <!-- <div class="flex mb-5">
-        <img v-if="requiredStar == true" src="./icons/star.svg" />
-        <input
-        :id="name"
-        :name="name"
-        :type="type"
-        :value="value"
-        :placeholder="placeholder" 
-        @input="updateValue"
-        class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0"
-        :class="error.length > 0 ? 'borderErrors' : ''"
-        >
-        <img v-if="tooltip == true" src="./icons/question mark.svg" />
-    </div> -->
     <div class="flex mb-5 tooltip-group relative">
         <img v-if="requiredStar == true" src="../assets/star.svg" />
         <div class="relative">
             <input
                 :id="name"
                 :name="name"
-                :type="type"
+                :type="custom_type"
                 :value="value"
                 :placeholder="placeholder" 
                 @input="updateValue"
                 class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0"
                 :class="error.length > 0 ? 'borderErrors' : ''"
+                v-maska:[options]
             >
-            <!-- <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPassword" type="password" @click="switchVisibility"/>
-            <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" v-show="!isShowPassword" type="password" @click="switchVisibility" /> -->
-            <img v-if="passvordlook == true" class='input-icon absolute input-icon-top input-icon-right' src="../assets/eye.svg"/>
-            <img v-if="passwordclose == true" class='input-icon absolute input-icon-top input-icon-right' src="../assets/passwordhide.svg"/>
+            <img v-if="(custom_type == 'password') && (type == 'password')" @click="custom_type = 'text'" class='input-icon absolute input-icon-top input-icon-right' src="../assets/eye.svg"/>
+            <img v-if="(custom_type == 'text') && (type == 'password')" @click="custom_type = 'password'" class='input-icon absolute input-icon-top input-icon-right' src="../assets/passwordhide.svg"/>
         </div>
-        <!-- {{ error }} -->
-        <!-- <div v-show="isShown" class="tooltip tooltip-bottom">Пароль должен состоять из <br> латинских символов. <br> Должен содержать знаки и <br> заглавные буквы</div>
-        <img  @mouseenter="toggle" @mouseleave="toggle" v-if="tooltip == true" src="./icons/question mark.svg" /> -->
-        <img v-if="tooltip == true" src="../assets/question mark.svg" />
+        <img @mouseenter="isShow = !isShow" @mouseleave="isShow = !isShow" v-if="tooltip == true" src="../assets/question mark.svg" class="answer"/>
+        <div v-show="isShow" class="tooltip">
+            <span v-html="tooltiptext"></span>
+        </div>
     </div>
     <TransitionGroup>
         <div v-for="element of error" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text">
@@ -104,5 +98,41 @@ const updateValue = (e) => {
 }
 .borderErrors{
     border: 2px solid #F47A7A;
+}
+
+.tooltip{
+  padding: 10px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border: 2px solid #F7F4A4;
+  position: absolute;
+  top: 50%;
+  left: 90%;
+  width: 347px;
+  z-index: 2;
+  color: #FFFFFF;
+  font-size: 24px;
+  text-align: center;
+  background-color: #000000;
+}
+
+@media (max-width: 1440px) {
+  .tooltip{
+    left: 0;
+    top: 100%;
+    z-index: 999;
+    font-size: 32px;
+    width: 100%;
+  }
+  /* .answer {
+    margin-right: 10px;
+  } */
+}
+
+@media (max-width: 768px) {
+  .tooltip{
+    left: -2%;
+  }
 }
 </style>
