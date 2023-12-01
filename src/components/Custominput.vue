@@ -68,6 +68,7 @@ const updateValue = (e) => {
                 :placeholder="placeholder" 
                 @input="updateValue"
                 class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0"
+                :class="error.length > 0 ? 'borderErrors' : ''"
             >
             <!-- :class="error.length > 0 ? 'borderErrors' : ''" -->
             <!-- <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPassword" type="password" @click="switchVisibility"/>
