@@ -25,7 +25,7 @@ const handleClick = (event) => {
 
 <template>
     <div class="mb-5 checkbox-body checkbox-width">
-        <img src="./icons/star.svg" />
+        <img src="../assets/star.svg" />
         <input 
         :id="name"
         :name="name"
