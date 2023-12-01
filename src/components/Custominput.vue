@@ -26,7 +26,7 @@ const props = defineProps({
         default: false
     },
     show:{
-        type: String,
+        type: Boolean,
         default: ''
     },
     error: {
@@ -35,11 +35,13 @@ const props = defineProps({
     }
 })
 
+// console.log(props.error)
+
 const updateValue = (e) => {
     emits('update:value', e.target.value)
 }
 const updateShow = (e) => {
-    emits('update:value', e.target.show)
+    emits('update:value', e.target.error)
 }
 </script>
 
@@ -54,7 +56,9 @@ const updateShow = (e) => {
         :placeholder="placeholder" 
         @input="updateValue"
         class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0"
+        :class="error ? 'borderErrors' : ''"
         >
+        {{ error }}
         <img v-if="tooltip == true" src="./icons/question mark.svg" />
     </div>
     <TransitionGroup>
@@ -70,5 +74,8 @@ const updateShow = (e) => {
 }
 .errorMessage{
     margin-left: 52px;
+}
+.borderErrors{
+    border: 2px solid #F47A7A;
 }
 </style>

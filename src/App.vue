@@ -35,7 +35,7 @@ const uploadFile = (e) => {
   review.photo_look = file_look;
   const file = e.target.files[0];
   review.photo = file;
-  // console.log(e.target.files[0].name)
+  // console.log(review.photo)
 }
 
 const isShown = ref(false)
@@ -80,6 +80,14 @@ const phoneField = ref('')
 const emailField = ref('')
 const checkBoxActive = ref(false)
 
+const checkCheckbox = (value) => {
+  if(value == true) {
+    return true
+  } else {
+    return false
+  }
+}
+
 const rules = computed(() => ({
   nameField: {
     minLength: helpers.withMessage('Логин менее 8-ми символов', minLength(8)),
@@ -95,13 +103,15 @@ const rules = computed(() => ({
   },
   phoneField: {
     required: helpers.withMessage('Телефон не введен', required)
+  },
+  checkBoxActive: {
+    checkBoxActive: helpers.withMessage('Согласие не дано', checkCheckbox)
   }
 }))
 
-const v = useVuelidate(rules, {nameField, emailField, passwordField, passwordFieldConfirm, phoneField})
+const v = useVuelidate(rules, {nameField, emailField, passwordField, passwordFieldConfirm, phoneField, checkBoxActive})
 
 // console.log(v)
-
 
 const submit = () => {
   // console.log('Submit!');
@@ -282,8 +292,13 @@ const submit = () => {
             id="consent"
             name="consent"
             type="checkbox"
-            v-model:checked="checkBoxActive"
+            v-model:checked="v.checkBoxActive.$model"
           />
+          <TransitionGroup>
+              <div v-for="element of v.checkBoxActive.$errors" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text">
+                  {{ element.$message }}
+              </div>
+          </TransitionGroup>
           <button type="submit" class="form-button-click ml-12 cursor-pointer border-rd-20 border-0 text-color-white submain-background-color font-size-8">Зарегистрироваться</button>
           <p class="loginIn text-color-white underline text-center mt-16 mb-24 mr-20 font-size-6">
             <router-link to="#">Уже есть аккаунт? Войти</router-link>
@@ -454,7 +469,7 @@ input::-webkit-inner-spin-button {
   max-width: 610px;
 }
 .photo-margin{
-  margin-right: 74px;
+  margin-right: 84px;
 }
 .phoneflex{
   align-items: flex-start;

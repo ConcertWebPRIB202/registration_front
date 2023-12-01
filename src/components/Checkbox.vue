@@ -12,6 +12,10 @@ const props = defineProps({
     checked:{
         type: Boolean,
         default: false
+    },
+    error: {
+        type: Array,
+        required: false
     }
 })
 const handleClick = (event) => {
@@ -32,6 +36,11 @@ const handleClick = (event) => {
         >
         <label for="consent" class="checkbox-label flex font-size-8 text-color-white widthchecbox" >Я даю свое согласие на обработку персональных данных</label>
     </div>
+    <TransitionGroup>
+        <div v-for="element of error" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text">
+            {{ element.$message }}
+        </div>
+    </TransitionGroup>
 </template>
 
 <style scoped> 
