@@ -161,31 +161,36 @@ const submit = () => {
             placeholder="Логин "
             v-model:value="v.nameField.$model"
             :error="v.nameField.$errors"
+            :passvordlook="false"
+            :passwordclose="false"
           />
           <CustomInput
-          :requiredStar="true"
-          :tooltip="true"
-          name="password"
-          :type="passwordFieldType"
-          placeholder="Пароль "
-          v-model:value="passwordField"
-          v-show="isShowPassword"
+            :requiredStar="true"
+            :tooltip="true"
+            name="password"
+            :type="passwordFieldType"
+            placeholder="Пароль "
+            v-model:value="passwordField"
+            :error="v.passwordFieldConfirm.$errors"
           />
           <CustomInput
-          :requiredStar="true"
-          name="passwordConfirm"
-          :type="passwordFieldTypeConfirm"
-          placeholder="Повторите пароль "
-          v-model:value="v.passwordFieldConfirm.$model"
-          :error="v.passwordFieldConfirm.$errors"
+            :requiredStar="true"
+            name="passwordConfirm"
+            :type="passwordFieldTypeConfirm"
+            placeholder="Повторите пароль "
+            v-model:value="v.passwordFieldConfirm.$model"
+            :error="v.passwordFieldConfirm.$errors"
           />
           <CustomInput
-          :requiredStar="true"
-          name="phone"
-          placeholder="+7"
-          :type="phonetype"
-          v-model:value="v.phoneField.$model"
-          :error="v.phoneField.$errors"
+            :requiredStar="true"
+            :tooltip="true"
+            name="phone"
+            placeholder="+7"
+            :type="phonetype"
+            v-model:value="v.phoneField.$model"
+            :error="v.phoneField.$errors"
+            :passvordlook="false"
+            :passwordclose="false"
           />
           <!-- <div class="flex mb-5 tooltip-group relative">
             <img src="./assets/star.svg" />
@@ -253,6 +258,8 @@ const submit = () => {
             placeholder="Почта "
             v-model:value="v.emailField.$model"
             :error="v.emailField.$errors"
+            :passvordlook="false"
+            :passwordclose="false"
           />
           <div class="flex mb-5 gender-body flex-col ml-13">
             <label class="gender-label font-size-8 text-color-white">Пол: </label>
