@@ -54,6 +54,7 @@ const updateShow = (e) => {
     v-maska data-maska="+7 ### ### ## ##"
     @input="updateValue"
     class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0"
+    :class="error.length > 0 ? 'borderErrors' : ''"
     >
     <TransitionGroup>
         <div v-for="element of error" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text">
@@ -68,5 +69,8 @@ const updateShow = (e) => {
 }
 .errorMessage{
     margin-left: 32px;
+}
+.borderErrors{
+    border: 2px solid #F47A7A;
 }
 </style>

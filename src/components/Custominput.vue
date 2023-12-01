@@ -40,13 +40,10 @@ const props = defineProps({
 const updateValue = (e) => {
     emits('update:value', e.target.value)
 }
-const updateShow = (e) => {
-    emits('update:value', e.target.error)
-}
 </script>
 
 <template>
-    <div class="flex mb-5">
+    <!-- <div class="flex mb-5">
         <img v-if="requiredStar == true" src="./icons/star.svg" />
         <input
         :id="name"
@@ -58,7 +55,30 @@ const updateShow = (e) => {
         class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0"
         :class="error.length > 0 ? 'borderErrors' : ''"
         >
-        {{ error }}
+        <img v-if="tooltip == true" src="./icons/question mark.svg" />
+    </div> -->
+    <div class="flex mb-5 tooltip-group relative">
+        <img v-if="requiredStar == true" src="./icons/star.svg" />
+        <div class="relative">
+            <input
+                :id="name"
+                :name="name"
+                :type="type"
+                :value="value"
+                :placeholder="placeholder" 
+                @input="updateValue"
+                class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0"
+            >
+            <!-- :class="error.length > 0 ? 'borderErrors' : ''" -->
+            <!-- <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPassword" type="password" @click="switchVisibility"/>
+            <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" v-show="!isShowPassword" type="password" @click="switchVisibility" /> -->
+            <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg"  type="password"/>
+            <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" type="password"/>
+        </div>
+        <!-- {{ error }} -->
+        <!-- <div v-show="isShown" class="tooltip tooltip-bottom">Пароль должен состоять из <br> латинских символов. <br> Должен содержать знаки и <br> заглавные буквы</div>
+        <img  @mouseenter="toggle" @mouseleave="toggle" v-if="tooltip == true" src="./icons/question mark.svg" /> -->
+        <div class="tooltip tooltip-bottom">Пароль должен состоять из <br> латинских символов. <br> Должен содержать знаки и <br> заглавные буквы</div>
         <img v-if="tooltip == true" src="./icons/question mark.svg" />
     </div>
     <TransitionGroup>

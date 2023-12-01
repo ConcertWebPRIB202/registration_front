@@ -161,9 +161,8 @@ const submit = () => {
             placeholder="Логин "
             v-model:value="v.nameField.$model"
             :error="v.nameField.$errors"
-            class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8"  
           />
-          <!-- <CustomInput
+          <CustomInput
           :requiredStar="true"
           :tooltip="true"
           name="password"
@@ -179,15 +178,24 @@ const submit = () => {
           placeholder="Повторите пароль "
           v-model:value="v.passwordFieldConfirm.$model"
           :error="v.passwordFieldConfirm.$errors"
-          /> -->
-          <div class="flex mb-5 tooltip-group relative">
+          />
+          <CustomInput
+          :requiredStar="true"
+          name="phone"
+          placeholder="+7"
+          :type="phonetype"
+          v-model:value="v.phoneField.$model"
+          :error="v.phoneField.$errors"
+          />
+          <!-- <div class="flex mb-5 tooltip-group relative">
             <img src="./assets/star.svg" />
             <div class="relative">
               <input
                 :type="passwordFieldType" 
                 v-model.trim="passwordField" 
                 placeholder="Пароль "
-                class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8"  
+                class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8"
+                :class="v.passwordFieldConfirm.$errors.length > 0 ? 'borderErrors' : ''"  
                 >
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPassword" type="password" @click="switchVisibility"/>
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" v-show="!isShowPassword" type="password" @click="switchVisibility" />
@@ -203,6 +211,7 @@ const submit = () => {
               v-model.trim="v.passwordFieldConfirm.$model"
               placeholder="Повторите пароль  "
               class="input border-0 border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8"
+              :class="v.passwordFieldConfirm.$errors.length > 0 ? 'borderErrors' : ''"
               >
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/eye.svg" v-show="isShowPasswordConfirm" type="password" @click="switchVisibilityConfirm"/>
               <img class='input-icon absolute input-icon-top input-icon-right' src="./assets/passwordhide.svg" v-show="!isShowPasswordConfirm" type="password" @click="switchVisibilityConfirm" />
@@ -212,8 +221,8 @@ const submit = () => {
             <div v-for="element of v.passwordFieldConfirm.$errors" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text">
               {{ element.$message }}
             </div>
-          </TransitionGroup>
-          <div class="flex tooltip-group relative phoneflex">
+          </TransitionGroup> -->
+          <!-- <div class="flex tooltip-group relative phoneflex">
             <img class="starPhone2" src="./assets/star.svg" />
             <div class="relative">
               <CustomInputPhone
@@ -227,7 +236,7 @@ const submit = () => {
             </div>
             <div v-show="isShownPhone" class="tooltip tooltip-right">Номер должен вводиться без <br> кода страны</div>
             <img @mouseenter="togglePhone" @mouseleave="togglePhone" class="starPhone" src="./assets/question mark.svg" />
-          </div>
+          </div> -->
           <div class="flex mb-5 mt-5 ml-5">
             <div class="relative city w-full">
               <select name="" id="city" class="input-city" v-model="review.city">
