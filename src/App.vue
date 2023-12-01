@@ -34,6 +34,12 @@ const uploadFile = (e) => {
   // console.log(review.photo)
 }
 
+const isShownPhoto = ref(false)
+
+const togglePhoto = () => {
+  return isShownPhoto.value = !isShownPhoto.value;
+}
+
 const errorPasword = ref('')
 
 const nameField = ref('')
