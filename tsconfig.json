@@ -3,8 +3,6 @@
     "./src/components/Custominput.vue",
     "./src/components/Checkbox.vue",
     "./src/components/RadioButton.vue",
-    "./src/components/CustomPhone.vue",
-    "./src/components/CustomPassword.vue",
   ],
   "references": [
     {

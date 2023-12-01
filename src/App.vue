@@ -7,8 +7,6 @@ import { vMaska } from "maska";
 import CustomInput from './components/Custominput.vue';
 import Checkbox from './components/Checkbox.vue';
 import RadioButton from './components/RadioButton.vue';
-import CustomInputPhone from './components/CustomPhone.vue';
-import CustomInputPassword from './components/CustomPassword.vue';
 
 const review = reactive({
   login: '',
