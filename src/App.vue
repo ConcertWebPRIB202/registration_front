@@ -107,7 +107,7 @@ const submit = () => {
   formData.append('login', review.login);
   formData.append('password', review.password);
   formData.append('repeat_password', review.repeat_password);
-  formData.append('phone', review.phone);
+  formData.append('phone', review.phone.replace(/\s/g, ""));
   formData.append('email', review.email);
   formData.append('photo', review.photo);
   formData.append('city', review.city);
@@ -115,7 +115,7 @@ const submit = () => {
 
   axios.post('http://127.0.0.1:8000/reg/user', formData, {
     headers: {
-      'Content-Type': 'multipart/from-data',
+      'Content-Type': 'multipart/form-data',
     }
   });
 
