@@ -6,11 +6,12 @@ import axios from 'axios';
 import CustomInput from './components/Custominput.vue';
 import Checkbox from './components/Checkbox.vue';
 
+
 const review = reactive({
   login: '',
   password: '',
-  passwordConfirm: '',
-  phone: '',
+  repeat_password: '',
+  phone: '+',
   city: '',
   citys: [
             { value: 'Moscov', label: "Москва"},
@@ -20,7 +21,7 @@ const review = reactive({
             { value: 'Tomsk', label: "Томск"},
           ],
   email: '',
-  gender: true,
+  gender_id: true,
   photo: null,
   photo_look: null,
   consent: false,
@@ -102,7 +103,6 @@ const rules = computed(() => ({
 const v = useVuelidate(rules, {nameField, emailField, passwordField, passwordFieldConfirm, phoneField, checkBoxActive})
 
 const submit = () => {
-  // console.log('Submit!');
 
   v.value.$touch()
   console.log(v.value.$error)
@@ -125,11 +125,22 @@ const submit = () => {
     }
   });
 
-  // axios.post('/api/review', review, {
-  //   headers: {
-  //     'Content-Type': 'multipart/from-data'
-  //   }
-  // });
+
+  axios.post('http://127.0.0.1:8000/reg/user', review, {
+    headers: {
+      'Content-Type': 'multipart/from-data',
+    },
+    data:{
+      login: review.login,
+      password: review.password,
+      repeat_password: review.repeat_password,
+      phone: review.phone,
+      email: review.email,
+      photo: review.photo,
+      city: review.city,
+      gender_id: review.gender_id
+    }
+  });
 
   // .then((res) => {
   //   console.log(res);
