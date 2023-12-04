@@ -116,11 +116,12 @@ const submit = () => {
     }
   });
 
-  router.push({ path: '/RegistrationComplete'})
+  router.push({ path: '/complete'})
 }
 </script>
 <template>
-        <div class="registration-body flex justify-center">
+        <div class="registration-body flex justify-center position-relative">
+          <router-link to="/mainpage" class="position-absolute top-10 left-10"><img src="../assets/Arrow 2.svg"></router-link>
           <div class="registration-logo flex justify-center flex-col mr-10">
             <img class="logo-shaman" src="../assets/logoShaman.svg" />
             <div class="title-shaman text-center font-size-30 text-color-white">
@@ -240,7 +241,7 @@ const submit = () => {
             </TransitionGroup>
             <button type="submit" class="form-button-click ml-12 cursor-pointer border-rd-20 border-0 text-color-white submain-background-color font-size-8">Зарегистрироваться</button>
             <p class="loginIn text-color-white underline text-center mt-16 mb-24 mr-20 font-size-6">
-              <router-link to="/RegistrationComplete">Уже есть аккаунт? Войти</router-link>
+              <router-link to="/authorization">Уже есть аккаунт? Войти</router-link>
             </p>
           </form>
         </div>

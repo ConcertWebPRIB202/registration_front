@@ -4,6 +4,7 @@
     "./src/components/Checkbox.vue",
     "./src/components/RadioButton.vue",
     "./src/components/RegistrationComplete.vue",
+    "./src/components/Authorization.vue",
   ],
   "references": [
     {

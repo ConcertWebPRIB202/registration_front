@@ -2,12 +2,12 @@
 import router from '@/router';
 </script>
 <template>
-    <div class="flex flex-col justify-center items-center pt-20 pb-20">
+    <div class="flex flex-col justify-center items-center hight">
         <div class="registraitointext">
-            Пользователь успешно зарегистрирован
+            Главная страница
         </div>
         <p class="loginIn text-color-white underline text-center font-size-8 gold pt-10">
-            <router-link to="/">Вернуться на главную страницу</router-link>
+            <router-link to="/">Зарегестрироваться</router-link>
         </p>
     </div>
 </template>
@@ -26,5 +26,7 @@ import router from '@/router';
 .gold{
     color: #F7F4A4;
 }
-
+.hight{
+    height: 512px;
+}
 </style>
