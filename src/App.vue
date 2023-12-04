@@ -12,7 +12,7 @@ const review = reactive({
   login: '',
   password: '',
   repeat_password: '',
-  phone: '',
+  phone: '+',
   city: '',
   citys: [
             { value: 'Moscov', label: "Москва"},
