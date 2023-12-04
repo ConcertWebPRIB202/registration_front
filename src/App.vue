@@ -125,23 +125,6 @@ const submit = () => {
     }
   });
 
-
-  axios.post('http://127.0.0.1:8000/reg/user', review, {
-    headers: {
-      'Content-Type': 'multipart/from-data',
-    },
-    data:{
-      login: review.login,
-      password: review.password,
-      repeat_password: review.repeat_password,
-      phone: review.phone,
-      email: review.email,
-      photo: review.photo,
-      city: review.city,
-      gender_id: review.gender_id
-    }
-  });
-
   // .then((res) => {
   //   console.log(res);
   // })
