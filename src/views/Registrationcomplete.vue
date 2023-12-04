@@ -7,7 +7,7 @@ import router from '@/router';
             Пользователь успешно зарегистрирован
         </div>
         <p class="loginIn text-color-white underline text-center font-size-8 gold pt-10">
-            <router-link to="/">Вернуться на главную страницу</router-link>
+            <router-link to="/mainpage">Вернуться на главную страницу</router-link>
         </p>
     </div>
 </template>
