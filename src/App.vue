@@ -103,21 +103,20 @@ const submit = () => {
   if (v.value.$error) return
   alert('Forma complited')
 
-  axios.post('http://127.0.0.1:8000/reg/user', review, {
+  const formData = new FormData();
+  formData.append('login', review.login);
+  formData.append('password', review.password);
+  formData.append('repeat_password', review.repeat_password);
+  formData.append('phone', review.phone);
+  formData.append('email', review.email);
+  formData.append('photo', review.photo);
+  formData.append('city', review.city);
+  formData.append('gender_id', review.gender_id);
+
+  axios.post('http://127.0.0.1:8000/reg/user', formData, {
     headers: {
       'Content-Type': 'multipart/from-data',
-    },
-    data:{
-      login: review.login,
-      password: review.password,
-      repeat_password: review.repeat_password,
-      phone: review.phone,
-      email: review.email,
-      photo: review.photo,
-      city: review.city,
-      gender_id: review.gender_id,
-    },
-    decompress: false
+    }
   });
 
   
