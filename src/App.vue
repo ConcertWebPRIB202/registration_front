@@ -26,13 +26,17 @@ const review = reactive({
   consent: false,
 })
 
+// const file_look = null;
+// const file = null;
+
 const uploadFile = (e) => {
   const file_look = e.target.files[0].name;
   review.photo_look = file_look;
   const file = e.target.files[0];
   review.photo = file;
-  // console.log(review.photo)
+  console.log(review.photo)
 }
+
 
 const isShownPhoto = ref(false)
 
@@ -40,7 +44,7 @@ const togglePhoto = () => {
   return isShownPhoto.value = !isShownPhoto.value;
 }
 
-const errorPasword = ref('')
+// const errorPasword = ref('')
 
 const nameField = ref('')
 const passwordField = ref('')
@@ -49,7 +53,15 @@ const phoneField = ref('')
 const emailField = ref('')
 const checkBoxActive = ref(false)
 
-const passAlpha = helpers.regex("/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/");
+// const passAlpha = helpers.regex("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,20})/");
+
+const passAlpha = (value) => {
+  if(!/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g.test(value)){
+    return false
+  } else {
+    return true
+  }
+}
 
 const checkCheckbox = (value) => {
   if(value == true) {
@@ -66,11 +78,13 @@ const rules = computed(() => ({
   },
   passwordField: {
     minLength: helpers.withMessage('Пароль менее 8-ми символов', minLength(8)),
-    passAlpha: helpers.withMessage('Пароль введен не корректно!', passAlpha),
+    passwordField: helpers.withMessage('Пароль введен не корректно!', passAlpha),
     required: helpers.withMessage('Пароль не введен', required)
   },
   passwordFieldConfirm: {
     sameAsPassword: helpers.withMessage('Пароли не совпадают', sameAs(passwordField.value)),
+    minLength: helpers.withMessage('Пароль менее 8-ми символов', minLength(8)),
+    passwordField: helpers.withMessage('Пароль введен не корректно!', passAlpha),
     required: helpers.withMessage('Пароль не введен', required)
   },
   emailField: {
@@ -95,6 +109,21 @@ const submit = () => {
   if (v.value.$error) return
   alert('Forma complited')
 
+  axios.post('http://127.0.0.1:8000/reg/user', review, {
+    headers: {
+      'Content-Type': 'multipart/from-data',
+    },
+    data:{
+      login: nameField,
+      password: passwordField,
+      repeat_password: passwordFieldConfirm,
+      phone: phoneField,
+      email: emailField,
+      photo: review.photo,
+      city: review.city,
+      gender_id: Number(checkBoxActive),
+    }
+  });
 
   // axios.post('/api/review', review, {
   //   headers: {
