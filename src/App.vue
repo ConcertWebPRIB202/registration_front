@@ -1,133 +1,130 @@
 <script setup>
-import { reactive, ref , computed } from 'vue'; 
-import useVuelidate from '@vuelidate/core'
-import {helpers, minLength, maxLength, email, numeric, sameAs, required} from '@vuelidate/validators'
-import axios from 'axios';
-import CustomInput from './components/Custominput.vue';
-import Checkbox from './components/Checkbox.vue';
+// import { reactive, ref , computed } from 'vue'; 
+// import useVuelidate from '@vuelidate/core'
+// import {helpers, minLength, maxLength, email, numeric, sameAs, required} from '@vuelidate/validators'
+// import axios from 'axios';
+// import CustomInput from './components/Custominput.vue';
+// import Checkbox from './components/Checkbox.vue';
+// import router from './router';
 
-const nameField = ref('')
-const passwordField = ref('')
-const passwordFieldConfirm = ref('')
-const phoneField = ref('')
-const emailField = ref('')
-const checkBoxActive = ref(false)
+// const nameField = ref('')
+// const passwordField = ref('')
+// const passwordFieldConfirm = ref('')
+// const phoneField = ref('')
+// const emailField = ref('')
+// const checkBoxActive = ref(false)
 
-const review = reactive({
-  login: nameField,
-  password: passwordField,
-  repeat_password: passwordFieldConfirm,
-  phone: phoneField,
-  city: '',
-  citys: [
-            { value: 'Moscow', label: "Москва"},
-            { value: 'Volgograd', label: "Волгоград"},
-            { value: 'Omsk', label: "Омск"},
-            { value: 'Ekaterinburg', label: "Екатеринбург"},
-            { value: 'Tomsk', label: "Томск"},
-          ],
-  email: emailField,
-  gender_id: 0,
-  photo: null,
-  photo_look: null,
-  consent: false,
-})
+// const isShownPhoto = ref(false)
 
+// const review = reactive({
+//   login: nameField,
+//   password: passwordField,
+//   repeat_password: passwordFieldConfirm,
+//   phone: phoneField,
+//   city: '',
+//   citys: [
+//             { value: 'Moscow', label: "Москва"},
+//             { value: 'Volgograd', label: "Волгоград"},
+//             { value: 'Omsk', label: "Омск"},
+//             { value: 'Ekaterinburg', label: "Екатеринбург"},
+//             { value: 'Tomsk', label: "Томск"},
+//           ],
+//   email: emailField,
+//   gender_id: 0,
+//   photo: null,
+//   photo_look: null,
+//   consent: false,
+// })
 
-const uploadFile = (e) => {
-  const file_look = e.target.files[0].name;
-  review.photo_look = file_look;
-  const file = e.target.files[0];
-  review.photo = file;
-  console.log(review.photo)
-}
+// const uploadFile = (e) => {
+//   const file_look = e.target.files[0].name;
+//   review.photo_look = file_look;
+//   const file = e.target.files[0];
+//   review.photo = file;
+//   console.log(review.photo)
+// }
 
+// const togglePhoto = () => {
+//   return isShownPhoto.value = !isShownPhoto.value;
+// }
 
-const isShownPhoto = ref(false)
+// const passAlpha = (value) => {
+//   if(!/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g.test(value)){
+//     return false
+//   } else {
+//     return true
+//   }
+// }
 
-const togglePhoto = () => {
-  return isShownPhoto.value = !isShownPhoto.value;
-}
+// const checkCheckbox = (value) => {
+//   if(value == true) {
+//     return true
+//   } else {
+//     return false
+//   }
+// }
 
+// const rules = computed(() => ({
+//   nameField: {
+//     minLength: helpers.withMessage('Логин менее 8-ми символов', minLength(8)),
+//     required: helpers.withMessage('Логин не введен', required)
+//   },
+//   passwordField: {
+//     minLength: helpers.withMessage('Пароль менее 8-ми символов', minLength(8)),
+//     passwordField: helpers.withMessage('Пароль введен не корректно!', passAlpha),
+//     required: helpers.withMessage('Пароль не введен', required)
+//   },
+//   passwordFieldConfirm: {
+//     sameAsPassword: helpers.withMessage('Пароли не совпадают', sameAs(passwordField.value)),
+//     minLength: helpers.withMessage('Пароль менее 8-ми символов', minLength(8)),
+//     passwordField: helpers.withMessage('Пароль введен не корректно!', passAlpha),
+//     required: helpers.withMessage('Пароль не введен', required)
+//   },
+//   emailField: {
+//     email: helpers.withMessage('Почта введена некорректно', email),
+//     required: helpers.withMessage('Почта не введена', required)
+//   },
+//   phoneField: {
+//     required: helpers.withMessage('Телефон не введен', required)
+//   },
+//   checkBoxActive: {
+//     checkBoxActive: helpers.withMessage('Согласие не дано', checkCheckbox)
+//   }
+// }))
 
-const passAlpha = (value) => {
-  if(!/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g.test(value)){
-    return false
-  } else {
-    return true
-  }
-}
+// const v = useVuelidate(rules, {nameField, emailField, passwordField, passwordFieldConfirm, phoneField, checkBoxActive})
 
-const checkCheckbox = (value) => {
-  if(value == true) {
-    return true
-  } else {
-    return false
-  }
-}
+// const submit = () => {
+//   v.value.$touch()
+//   console.log(v.value.$error)
+//   if (v.value.$error) return
+//   alert('Forma complited')
 
-const rules = computed(() => ({
-  nameField: {
-    minLength: helpers.withMessage('Логин менее 8-ми символов', minLength(8)),
-    required: helpers.withMessage('Логин не введен', required)
-  },
-  passwordField: {
-    minLength: helpers.withMessage('Пароль менее 8-ми символов', minLength(8)),
-    passwordField: helpers.withMessage('Пароль введен не корректно!', passAlpha),
-    required: helpers.withMessage('Пароль не введен', required)
-  },
-  passwordFieldConfirm: {
-    sameAsPassword: helpers.withMessage('Пароли не совпадают', sameAs(passwordField.value)),
-    minLength: helpers.withMessage('Пароль менее 8-ми символов', minLength(8)),
-    passwordField: helpers.withMessage('Пароль введен не корректно!', passAlpha),
-    required: helpers.withMessage('Пароль не введен', required)
-  },
-  emailField: {
-    email: helpers.withMessage('Почта введена некорректно', email),
-    required: helpers.withMessage('Почта не введена', required)
-  },
-  phoneField: {
-    required: helpers.withMessage('Телефон не введен', required)
-  },
-  checkBoxActive: {
-    checkBoxActive: helpers.withMessage('Согласие не дано', checkCheckbox)
-  }
-}))
+//   const formData = new FormData();
+//   formData.append('login', review.login);
+//   formData.append('password', review.password);
+//   formData.append('repeat_password', review.repeat_password);
+//   formData.append('phone', review.phone.replace(/\s/g, ""));
+//   formData.append('email', review.email);
+//   formData.append('photo', review.photo);
+//   formData.append('city', review.city);
+//   formData.append('gender_id', review.gender_id);
 
-const v = useVuelidate(rules, {nameField, emailField, passwordField, passwordFieldConfirm, phoneField, checkBoxActive})
+//   axios.post('http://127.0.0.1:8000/reg/user', formData, {
+//     headers: {
+//       'Content-Type': 'multipart/form-data',
+//     }
+//   });
 
-const submit = () => {
-
-  v.value.$touch()
-  console.log(v.value.$error)
-  if (v.value.$error) return
-  alert('Forma complited')
-
-  const formData = new FormData();
-  formData.append('login', review.login);
-  formData.append('password', review.password);
-  formData.append('repeat_password', review.repeat_password);
-  formData.append('phone', review.phone.replace(/\s/g, ""));
-  formData.append('email', review.email);
-  formData.append('photo', review.photo);
-  formData.append('city', review.city);
-  formData.append('gender_id', review.gender_id);
-
-  axios.post('http://127.0.0.1:8000/reg/user', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    }
-  });
-
-  
-}
-
+//   router.push({ path: '/RegistrationComplete'})
+// }
 </script>
 
 <template>
   <div class="ma overflow-hidden pt-10 pb-10 submain-background-color">
     <div class="container ma b-rd-10 main-background-color">
-      <div class="registration-body flex justify-center">
+      <router-view></router-view>
+      <!-- <div class="registration-body flex justify-center">
         <div class="registration-logo flex justify-center flex-col mr-10">
           <img class="logo-shaman" src="./assets/logoShaman.svg" />
           <div class="title-shaman text-center font-size-30 text-color-white">
@@ -247,10 +244,10 @@ const submit = () => {
           </TransitionGroup>
           <button type="submit" class="form-button-click ml-12 cursor-pointer border-rd-20 border-0 text-color-white submain-background-color font-size-8">Зарегистрироваться</button>
           <p class="loginIn text-color-white underline text-center mt-16 mb-24 mr-20 font-size-6">
-            <router-link to="#">Уже есть аккаунт? Войти</router-link>
+            <router-link to="/RegistrationComplete">Уже есть аккаунт? Войти</router-link>
           </p>
         </form>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
