@@ -6,29 +6,33 @@ import axios from 'axios';
 import CustomInput from './components/Custominput.vue';
 import Checkbox from './components/Checkbox.vue';
 
+const nameField = ref('')
+const passwordField = ref('')
+const passwordFieldConfirm = ref('')
+const phoneField = ref('')
+const emailField = ref('')
+const checkBoxActive = ref(false)
 
 const review = reactive({
-  login: '',
-  password: '',
-  repeat_password: '',
-  phone: '+',
+  login: nameField,
+  password: passwordField,
+  repeat_password: passwordFieldConfirm,
+  phone: phoneField,
   city: '',
   citys: [
-            { value: 'Moscov', label: "Москва"},
+            { value: 'Moscow', label: "Москва"},
             { value: 'Volgograd', label: "Волгоград"},
             { value: 'Omsk', label: "Омск"},
             { value: 'Ekaterinburg', label: "Екатеринбург"},
             { value: 'Tomsk', label: "Томск"},
           ],
-  email: '',
-  gender_id: true,
+  email: emailField,
+  gender_id: 0,
   photo: null,
   photo_look: null,
   consent: false,
 })
 
-// const file_look = null;
-// const file = null;
 
 const uploadFile = (e) => {
   const file_look = e.target.files[0].name;
@@ -45,16 +49,6 @@ const togglePhoto = () => {
   return isShownPhoto.value = !isShownPhoto.value;
 }
 
-// const errorPasword = ref('')
-
-const nameField = ref('')
-const passwordField = ref('')
-const passwordFieldConfirm = ref('')
-const phoneField = ref('')
-const emailField = ref('')
-const checkBoxActive = ref(false)
-
-// const passAlpha = helpers.regex("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,20})/");
 
 const passAlpha = (value) => {
   if(!/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g.test(value)){
@@ -114,26 +108,19 @@ const submit = () => {
       'Content-Type': 'multipart/from-data',
     },
     data:{
-      login: nameField,
-      password: passwordField,
-      repeat_password: passwordFieldConfirm,
-      phone: phoneField,
-      email: emailField,
+      login: review.login,
+      password: review.password,
+      repeat_password: review.repeat_password,
+      phone: review.phone,
+      email: review.email,
       photo: review.photo,
       city: review.city,
-      gender_id: Number(checkBoxActive),
-    }
+      gender_id: review.gender_id,
+    },
+    decompress: false
   });
 
-  // .then((res) => {
-  //   console.log(res);
-  // })
-  // .catch((err) => {
-  //   console.log(err);
-  // })
-  // .finally(() => {
-  //   console.log('End');
-  // })
+  
 }
 
 </script>
@@ -213,8 +200,8 @@ const submit = () => {
                 type="radio" 
                 name="gender" 
                 id="gender-male" 
-                :value="true" 
-                v-model.trim="review.gender"
+                :value=0
+                v-model.trim="review.gender_id" 
               >
               <label for="gender-male" class="gender-label font-size-8 text-color-white sex mr-16">Муж</label>
               <input 
@@ -222,8 +209,8 @@ const submit = () => {
                 type="radio" 
                 name="gender" 
                 id="gender-femile" 
-                :value="false" 
-                v-model.trim="review.gender"
+                :value=1
+                v-model.trim="review.gender_id" 
               >
               <label for="gender-femile" class="gender-label font-size-8 text-color-white sex mr-8">Жен</label>
             </div>
