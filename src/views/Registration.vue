@@ -11,10 +11,13 @@ const nameField = ref('')
 const passwordField = ref('')
 const passwordFieldConfirm = ref('')
 const phoneField = ref('')
+const cityField = ref('')
 const emailField = ref('')
 const checkBoxActive = ref(false)
 
 const isShownPhoto = ref(false)
+const isShownDropdown = ref(false)
+const isShownDropdownPlaceholder = ref(true)
 
 const review = reactive({
   login: nameField,
@@ -23,11 +26,17 @@ const review = reactive({
   phone: phoneField,
   city: '',
   citys: [
+            { value: '', label: "Не выбирать"},
             { value: 'Moscow', label: "Москва"},
             { value: 'Volgograd', label: "Волгоград"},
             { value: 'Omsk', label: "Омск"},
             { value: 'Ekaterinburg', label: "Екатеринбург"},
             { value: 'Tomsk', label: "Томск"},
+            { value: 'Vladivostok', label: "Владивосток"},
+            { value: 'Kamishin', label: "Камышин"},
+            { value: 'Krasnodar', label: "Краснодар"},
+            { value: 'Nishniy Novgorod', label: "Нижний новгород"},
+            { value: 'Kaliningrad', label: "Калининград"},
           ],
   email: emailField,
   gender_id: 0,
@@ -43,6 +52,39 @@ const uploadFile = (e) => {
   review.photo = file;
   console.log(review.photo)
 }
+
+const togglePlaceholder = (e) => {
+  if (e.target.localName=="span")
+  {
+    console.log(e)
+    if(e.target.attributes.value.nodeValue=="")
+    {
+      cityField.value = e.target.innerText
+      isShownDropdownPlaceholder.value=true
+      review.city=e.target.attributes.value.nodeValue
+    }
+    else{
+      cityField.value = e.target.innerText
+      isShownDropdownPlaceholder.value=false
+      review.city=e.target.attributes.value.nodeValue
+    }
+  }
+  else{
+
+    if(e.target.children[0].attributes.value.nodeValue=="")
+    {
+      cityField.value = e.target.innerText
+      isShownDropdownPlaceholder.value=true
+      review.city=e.target.children[0].attributes.value.nodeValue
+    }
+    else{
+      cityField.value = e.target.innerText
+      isShownDropdownPlaceholder.value=false
+      review.city=e.target.children[0].attributes.value.nodeValue
+    }
+  }
+}
+
 
 const togglePhoto = () => {
   return isShownPhoto.value = !isShownPhoto.value;
@@ -168,14 +210,17 @@ const submit = () => {
               v-model:value="v.phoneField.$model"
               :error="v.phoneField.$errors"
             />
-            <div class="flex mb-5 mt-5 ml-5">
-              <div class="relative city w-full">
-                <select name="" id="city" class="input-city" v-model="review.city">
-                  <option selected disabled value="">Город: </option>
-                  <option v-for="option in review.citys" :value="option.value">
-                    {{ option.label }}
-                  </option>
-                </select>
+            <div @click="isShownDropdown=!isShownDropdown" class="custom-dropdown">
+              <div v-show="isShownDropdownPlaceholder" class="custom-dropdown-placeholder text-color-white">
+                Город
+              </div>
+              <div v-show="!isShownDropdownPlaceholder" class="custom-dropdown-placeholder-city text-color-white">
+                {{cityField}}
+              </div>
+              <div v-show="isShownDropdown" class="custom-dropdown-list">
+                <div v-show="isShownDropdown" v-for="option in review.citys" class="custom-dropdown-list-item" @click="togglePlaceholder">
+                  <span :value="option.value">{{ option.label }}</span>
+                </div>
               </div>
             </div>
             <CustomInput
@@ -241,7 +286,7 @@ const submit = () => {
             </TransitionGroup>
             <button type="submit" class="form-button-click ml-12 cursor-pointer border-rd-20 border-0 text-color-white submain-background-color font-size-8">Зарегистрироваться</button>
             <p class="loginIn text-color-white underline text-center mt-16 mb-24 mr-20 font-size-6">
-              <router-link to="/authorization">Уже есть аккаунт? Войти</router-link>
+              <router-link to="/authorisation">Уже есть аккаунт? Войти</router-link>
             </p>
           </form>
         </div>
@@ -356,10 +401,97 @@ input::-webkit-inner-spin-button {
   width: 453px;
   color: #FFFFFF;
   appearance: none;
-  background: url(./assets/dropmenu.svg) no-repeat right rgba(55, 55, 55, 1);
+  background: url(../assets/dropmenu.svg) no-repeat right rgba(55, 55, 55, 1);
   background-position-x: calc(100% - 20px);
   opacity: 0.78;
 }
+.custom-dropdown{
+  margin: 20px 0px 20px 38px;
+  background-color: #373737;
+  width: 453px;
+  height: 61px;
+  border-radius: 30px; 
+  background: url(../assets/dropmenu.svg) no-repeat right rgba(55, 55, 55, 1);
+  background-position-x: calc(100% - 20px);
+}
+.custom-dropdown-placeholder{
+  padding-top: auto;
+  padding-bottom: auto;
+  padding-left: 32px;
+  font-size: 32px;
+  opacity: 50%;
+}
+.custom-dropdown-placeholder-city{
+  padding-top: auto;
+  padding-bottom: auto;
+  padding-left: 32px;
+  font-size: 32px;
+}
+.custom-dropdown-list{
+  position: relative;
+  padding-right: 12px;
+  z-index: 1;
+  top:35%;
+  left: 2%;
+  width: 429px;
+  height: 611px;
+  background-color: #131313;
+  border-radius: 30px;
+  border: solid #F7F4A4;
+  animation-name: dropdown-animation;
+  animation-duration: 0.5s;
+  overflow:scroll;
+}
+@keyframes dropdown-animation {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 611px;
+  }
+}
+.custom-dropdown-list-item{
+  margin: 30px 0px 0px 10px;
+  background-color: #373737;
+  width: 374px;
+  height: 53px;
+  border-radius: 30px; 
+  animation-name: dropdown-list-item-animation;
+  animation-duration: 0.5s;
+}
+.custom-dropdown-list-item span {
+  color: #ffffff;
+  font-size: 32px;
+  padding: 7px 0px 0px 30px;
+}
+@keyframes dropdown-list-item-animation {
+  from {
+    /* opacity: 0%; */
+    height: 0px;
+  }
+  to {
+    /* opacity: 100%; */
+    height: 53px;
+  }
+}
+.custom-dropdown-list::-webkit-scrollbar {
+  width: 20px;
+}
+.custom-dropdown-list::-webkit-scrollbar-button{
+  display: none;
+}
+.custom-dropdown-list::-webkit-scrollbar-track {
+  display: none;
+}
+
+.custom-dropdown-list::-webkit-scrollbar-thumb {
+  background-color: #F7F4A4;
+  border-radius: 20px;
+}
+.custom-dropdown-list::-webkit-scrollbar-corner{
+  display: none;
+}
+
 /* Кастомная загрузка файла */
 .input-file{
   display: flex;

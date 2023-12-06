@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Registration from '@/views/Registration.vue'
 import RegistrationComplete from '@/views/Registrationcomplete.vue'
-import Authorization from '@/views/Authorization.vue'
+import Authorization from '@/views/Authorisation.vue'
 import MainPage from '@/views/MainPage.vue'
 
 const router = createRouter({
@@ -18,8 +18,8 @@ const router = createRouter({
       component: RegistrationComplete,
     },
     {
-      path: '/authorization',
-      name: 'Authorization',
+      path: '/authorisation',
+      name: 'Authorisation',
       component: Authorization,
     },
     {
