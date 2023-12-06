@@ -2,7 +2,7 @@
 import router from '@/router';
 </script>
 <template>
-    <div class="flex flex-col justify-center items-center hight">
+    <div class="flex flex-col justify-center items-center height margin-top-12">
         <div class="registraitointext">
             Главная страница
         </div>
@@ -26,7 +26,7 @@ import router from '@/router';
 .gold{
     color: #F7F4A4;
 }
-.hight{
+.height{
     height: 512px;
 }
 </style>

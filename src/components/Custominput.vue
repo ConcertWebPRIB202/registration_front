@@ -54,8 +54,8 @@ const updateValue = (e) => {
 }
 
 const options = reactive({
-  mask: ref(props.mask),
-  eager: true
+    mask: ref(props.mask),
+    eager: true
 })
 </script>
 
@@ -71,7 +71,7 @@ const options = reactive({
                 :placeholder="placeholder" 
                 @input="updateValue"
                 class="input border-rd-10 text-color-white input-padding input-margin submain-background-color font-size-8 border-0"
-                :class="error.length > 0 ? 'borderErrors' : ''"
+                :class="error.length > 0 ? 'border-errors' : ''"
                 v-maska:[options]
             >
             <img v-if="(custom_type == 'password') && (type == 'password')" @click="custom_type = 'text'" class='input-icon absolute input-icon-top input-icon-right' src="../assets/eye.svg"/>
@@ -83,7 +83,7 @@ const options = reactive({
         </div>
     </div>
     <TransitionGroup>
-        <div v-for="element of error" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text">
+        <div v-for="element of error" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 error-message error-message-color-text">
             {{ element.$message }}
         </div>
     </TransitionGroup>
@@ -93,13 +93,19 @@ const options = reactive({
 .input{
     background: #373737;
 }
-.errorMessage{
+.error-message{
     margin-left: 52px;
 }
-.borderErrors{
+.border-errors{
     border: 2px solid #F47A7A;
 }
-
+/* input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+    box-shadow: 0 0 0 30px #373737 inset !important;
+    border-radius: 50px;
+} */
 .tooltip{
   padding: 10px;
   border-top-right-radius: 20px;
@@ -125,9 +131,6 @@ const options = reactive({
     font-size: 32px;
     width: 100%;
   }
-  /* .answer {
-    margin-right: 10px;
-  } */
 }
 
 @media (max-width: 768px) {
