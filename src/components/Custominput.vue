@@ -92,6 +92,9 @@ const options = reactive({
 <style scoped>
 .input{
     background: #373737;
+    /* outline: 4px solid #373737;
+    outline-offset: -1px;
+    color: #FFFFFF; */
 }
 .error-message{
     margin-left: 52px;
@@ -103,8 +106,8 @@ const options = reactive({
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active  {
-    box-shadow: 0 0 0 30px #373737 inset !important;
-    border-radius: 50px;
+    box-shadow: 40px 40px 40px 100px #373737 inset !important;
+    color: #FFFFFF !important;
 } */
 .tooltip{
   padding: 10px;

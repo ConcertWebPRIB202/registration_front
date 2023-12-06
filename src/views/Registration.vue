@@ -15,6 +15,8 @@ const cityField = ref('')
 const emailField = ref('')
 const checkBoxActive = ref(false)
 
+const errorPhoto = ref(false)
+
 const isShownPhoto = ref(false)
 const isShownDropdown = ref(false)
 const isShownDropdownPlaceholder = ref(true)
@@ -43,6 +45,8 @@ const review = reactive({
   photo: null,
   photo_look: null,
   consent: false,
+  // errorPhotoViewPer: 'Загрузите файл!',
+  errorPhotoViewPer: '',
 })
 
 const uploadFile = (e) => {
@@ -50,7 +54,15 @@ const uploadFile = (e) => {
   review.photo_look = file_look;
   const file = e.target.files[0];
   review.photo = file;
-  console.log(review.photo)
+  review.errorPhotoViewPer = '';
+  // console.log(review.photo)
+  return errorPhoto.value = !errorPhoto.value;
+}
+
+const uploadFileClick = () => {
+  if(review.photo == null ){
+    review.errorPhotoViewPer = 'Загрузите файл!';
+  }
 }
 
 const togglePlaceholder = (e) => {
@@ -91,7 +103,7 @@ const togglePhoto = () => {
 }
 
 const passAlpha = (value) => {
-  if(!/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g.test(value)){
+  if(!/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g.test(value)){
     return false
   } else {
     return true
@@ -113,13 +125,13 @@ const rules = computed(() => ({
   },
   passwordField: {
     minLength: helpers.withMessage('Пароль менее 8-ми символов', minLength(8)),
-    passwordField: helpers.withMessage('Пароль введен не корректно!', passAlpha),
+    passwordField: helpers.withMessage('Пароль введен некорректно!', passAlpha),
     required: helpers.withMessage('Пароль не введен', required)
   },
   passwordFieldConfirm: {
     sameAsPassword: helpers.withMessage('Пароли не совпадают', sameAs(passwordField.value)),
     minLength: helpers.withMessage('Пароль менее 8-ми символов', minLength(8)),
-    passwordField: helpers.withMessage('Пароль введен не корректно!', passAlpha),
+    passwordField: helpers.withMessage('Пароль введен некорректно!', passAlpha),
     required: helpers.withMessage('Пароль не введен', required)
   },
   emailField: {
@@ -138,9 +150,11 @@ const v = useVuelidate(rules, {nameField, emailField, passwordField, passwordFie
 
 const submit = () => {
   v.value.$touch()
-  console.log(v.value.$error)
-  if (v.value.$error) return
-  alert('Forma complited')
+  // console.log(v.value.$error)
+  // console.log(errorPhoto.value)
+  if (v.value.$error == true) return
+  if(errorPhoto.value == false) return
+  // alert('Forma complited')
 
   const formData = new FormData();
   formData.append('login', review.login);
@@ -267,11 +281,13 @@ const submit = () => {
                 id='upload' 
                 accept="image/x-png,image/gif,image/jpeg,image/jpg,image/bmp,image/svg,image/webp"
                 @change="uploadFile"
+                v-on:click="uploadFileClick"
               >
               <label for='upload'  class="input-file"><img src="../assets/upload.svg"></label>
             </div>
             <div class="flex mb-5 justify-center font-size-6 error-message-color-text namephoto">
               {{ review.photo_look }}
+              {{ review.errorPhotoViewPer }}
             </div>
             <Checkbox
               id="consent"
