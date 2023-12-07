@@ -446,20 +446,7 @@ input::-webkit-inner-spin-button {
   background-color: #000000;
 }
 /* Кастомное выпадающие меню */
-.input-city{
-  padding: 12px 32px;
-  margin: 0 18px;
-  border-radius: 30px;
-  background-color: #5c5c5c;
-  border: 0;
-  font-size: 32px;
-  width: 453px;
-  color: #FFFFFF;
-  appearance: none;
-  background: url(../assets/dropmenu.svg) no-repeat right rgba(55, 55, 55, 1);
-  background-position-x: calc(100% - 20px);
-  opacity: 0.78;
-}
+
 .custom-dropdown{
   margin: 20px 0px 20px 34px;
   background-color: #373737;
