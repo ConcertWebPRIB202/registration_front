@@ -476,6 +476,7 @@ input::-webkit-inner-spin-button {
   opacity: 50%;
 }
 .custom-dropdown-placeholder-city{
+  padding-top: 6px;
   padding-left: 32px;
   font-size: 32px;
 }
@@ -720,12 +721,12 @@ input::-webkit-inner-spin-button {
     background-position-x: calc(100% - 26px);
   }
   .custom-dropdown-placeholder{
-    padding-top: 10px;
-    font-size: 16px;
+    padding-top: 4px;
+    font-size: 20px;
   }
   .custom-dropdown-placeholder-city {
-    padding-top: 10px;
-    font-size: 16px;
+    padding-top: 8px;
+    font-size: 20px;
   }
   .custom-dropdown-list{
     max-width: 91%;
