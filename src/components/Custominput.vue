@@ -92,7 +92,6 @@ const options = reactive({
 <style scoped>
 .input{
     background: #373737;
-    font-size: 16px;
     /* outline: 4px solid #373737;
     outline-offset: -1px;
     color: #FFFFFF; */
@@ -165,6 +164,9 @@ input:-webkit-autofill:active  {
         font-size: 16px;
         margin-top: 0;
         margin-bottom: 20px;
+    }
+    .input{
+        font-size: 16px;
     }
 }
 </style>
