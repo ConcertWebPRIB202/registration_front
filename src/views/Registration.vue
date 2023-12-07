@@ -45,18 +45,24 @@ const review = reactive({
   photo: null,
   photo_look: null,
   consent: false,
-  // errorPhotoViewPer: 'Загрузите файл!',
   errorPhotoViewPer: '',
 })
 
 const uploadFile = (e) => {
   const file_look = e.target.files[0].name;
-  review.photo_look = file_look;
   const file = e.target.files[0];
-  review.photo = file;
-  review.errorPhotoViewPer = '';
-  // console.log(review.photo)
-  return errorPhoto.value = !errorPhoto.value;
+  if(/\.[^\.]*$/.exec(file_look)[0] == '.pdf'){
+    console.log('dfgdfgfdgdfdfg')
+    review.errorPhotoViewPer = 'Неверный формат файла!';
+    review.photo_look = null;
+    review.photo = null;
+  } else {
+    review.photo = file;
+    review.photo_look = file_look;
+    review.errorPhotoViewPer = '';
+    return errorPhoto.value = !errorPhoto.value;
+  }
+  console.log(review.photo);
 }
 
 const uploadFileClick = () => {
@@ -152,13 +158,13 @@ const v = useVuelidate(rules, {nameField, emailField, passwordField, passwordFie
 const submit = () => {
   v.value.$touch()
   if (v.value.$error == true) return
-  if(errorPhoto.value == false) return
+  if(review.photo == null) return
   axios.get('http://127.0.0.1:8000/reg/user',{
     params: {
       login: review.login
     }
   })
-  
+  alert('Forma complited')
   .then(function (response) {
     if(response.status==200)
     {
