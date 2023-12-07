@@ -25,7 +25,7 @@ const handleClick = (event) => {
 
 <template>
     <div class="mb-5 checkbox-body checkbox-width">
-        <img src="../assets/star.svg" />
+        <img src="../assets/star.svg" class="star"/>
         <input 
         :id="name"
         :name="name"
@@ -58,6 +58,8 @@ const handleClick = (event) => {
 .custom-checkbox+label::before {
     content: '';
     display: inline-block;
+    /* margin-left: 32px;
+    margin-right: 32px; */
     margin-left: 32px;
     margin-right: 32px;
     width: 36px;
@@ -100,5 +102,30 @@ const handleClick = (event) => {
 .checkbox-width{
     display: flex;
     width: 630px;
+}
+@media (max-width: 1440px) {
+    .checkbox-width{
+    width: 500px;
+}
+}
+@media (max-width: 768px) {
+    .checkbox-label{
+        font-size: 16px;
+    }
+    .checkbox-width{
+        width: 350px;
+    }
+    .custom-checkbox+label::before {
+        width: 24px;
+        height: 24px;
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+    .star{
+        width: 16px;
+    }
+    .checkbox-body{
+        margin-left: 18%;
+    }
 }
 </style>
