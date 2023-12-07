@@ -150,29 +150,55 @@ const v = useVuelidate(rules, {nameField, emailField, passwordField, passwordFie
 
 const submit = () => {
   v.value.$touch()
-  // console.log(v.value.$error)
-  // console.log(errorPhoto.value)
   if (v.value.$error == true) return
   if(errorPhoto.value == false) return
-  // alert('Forma complited')
+  axios.get('http://127.0.0.1:8000/reg/user',{
+    params: {
+      login: review.login
+    }
+  })
+  
+  .then(function (response) {
+    if(response.status==200)
+    {
+      alert('Пользователь с таким логином уже существует')
+    }
+    else if(response.status==204)
+    {
+      console.log('pisya')
+      const formData = new FormData();
+      formData.append('login', review.login);
+      formData.append('password', review.password);
+      formData.append('repeat_password', review.repeat_password);
+      formData.append('phone', review.phone.replace(/\s/g, ""));
+      formData.append('email', review.email);
+      formData.append('photo', review.photo);
+      formData.append('city', review.city);
+      formData.append('gender_id', review.gender_id);
 
-  const formData = new FormData();
-  formData.append('login', review.login);
-  formData.append('password', review.password);
-  formData.append('repeat_password', review.repeat_password);
-  formData.append('phone', review.phone.replace(/\s/g, ""));
-  formData.append('email', review.email);
-  formData.append('photo', review.photo);
-  formData.append('city', review.city);
-  formData.append('gender_id', review.gender_id);
-
-  axios.post('http://127.0.0.1:8000/reg/user', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
+      axios.post('http://127.0.0.1:8000/reg/user', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      })
+      .then(function (response) {
+        if(response.status==202)
+        {
+          router.push({ path: '/errorpackage'})
+        }
+        else if(response.status==201)
+        {
+          router.push({ path: '/complete'})
+        }
+      });
+    }
+    else if(response.status==201)
+    {
+      router.push({ path: '/errorpackage'})
     }
   });
 
-  router.push({ path: '/complete'})
+
 }
 </script>
 <template>
