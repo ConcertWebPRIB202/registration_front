@@ -322,7 +322,7 @@ const submit = () => {
                 @change="uploadFile"
                 v-on:click="uploadFileClick"
               >
-              <label for='upload'  class="input-file"><img src="../assets/upload.svg"></label>
+              <label for='upload' class="input-file" :class="!review.errorPhotoViewPer == '' ? 'border-errors' : ''"><img src="../assets/upload.svg"></label>
             </div>
             <div class="flex mb-5 justify-center font-size-6 error-message-color-text namephoto">
               {{ review.photo_look }}
@@ -571,6 +571,9 @@ input::-webkit-inner-spin-button {
 }
 #upload{
   display: none;
+}
+.border-errors{
+    border: 2px solid #F47A7A;
 }
 .login a{
   color: #ffffff;
