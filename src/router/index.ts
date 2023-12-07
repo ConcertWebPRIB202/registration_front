@@ -3,6 +3,7 @@ import Registration from '@/views/Registration.vue'
 import RegistrationComplete from '@/views/Registrationcomplete.vue'
 import Authorization from '@/views/Authorisation.vue'
 import MainPage from '@/views/MainPage.vue'
+import ErrorPackage from '@/views/ErrorPackage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/mainpage',
       name: 'MainPage',
       component: MainPage,
+    },
+    {
+      path: '/errorpackage',
+      name: 'ErrorPackage',
+      component: ErrorPackage,
     },
   ]
 })

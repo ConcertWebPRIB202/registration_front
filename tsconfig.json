@@ -6,7 +6,8 @@
     "./src/views/RegistrationComplete.vue",
     "./src/views/Authorisation.vue",
     "./src/views/MainPage.vue",
-    "./src/views/Registration.vue"
+    "./src/views/Registration.vue",
+    "./src/views/ErrorPackage.vue",
   ],
   "references": [
     {
