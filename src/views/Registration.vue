@@ -618,6 +618,9 @@ input::-webkit-inner-spin-button {
   justify-content: space-between;
 }
 @media (max-width: 1440px) {
+  .login{
+    margin-right: 1rem;
+  }
   .registration-logo{
     align-items: center;
   }
@@ -770,7 +773,7 @@ input::-webkit-inner-spin-button {
   }
   .photo-margin{
     position: absolute;
-    right: -23%;
+    right: -19%;
     width: 26px;
   }
   .input-file{
