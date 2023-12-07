@@ -15,7 +15,7 @@ const cityField = ref('')
 const emailField = ref('')
 const checkBoxActive = ref(false)
 
-const errorPhoto = ref(false)
+const errorPhoto = ref('')
 
 const isShownPhoto = ref(false)
 const isShownDropdown = ref(false)
@@ -125,30 +125,30 @@ const checkCheckbox = (value) => {
 
 const rules = computed(() => ({
   nameField: {
-    minLength: helpers.withMessage('Логин менее 8-ми символов', minLength(8)),
-    required: helpers.withMessage('Логин не введен', required)
+    minLength: helpers.withMessage('Логин менее 8-ми символов!', minLength(8)),
+    required: helpers.withMessage('Логин не введен!', required)
   },
   passwordField: {
-    minLength: helpers.withMessage('Пароль менее 8-ми символов', minLength(8)),
+    minLength: helpers.withMessage('Пароль менее 8-ми символов!', minLength(8)),
     passwordField: helpers.withMessage('Пароль введен некорректно!', passAlpha),
-    required: helpers.withMessage('Пароль не введен', required)
+    required: helpers.withMessage('Пароль не введен!', required)
   },
   passwordFieldConfirm: {
-    sameAsPassword: helpers.withMessage('Пароли не совпадают', sameAs(passwordField.value)),
-    minLength: helpers.withMessage('Пароль менее 8-ми символов', minLength(8)),
+    sameAsPassword: helpers.withMessage('Пароли не совпадают!', sameAs(passwordField.value)),
+    minLength: helpers.withMessage('Пароль менее 8-ми символов!', minLength(8)),
     passwordField: helpers.withMessage('Пароль введен некорректно!', passAlpha),
-    required: helpers.withMessage('Пароль не введен', required)
+    required: helpers.withMessage('Пароль не введен!', required)
   },
   emailField: {
-    email: helpers.withMessage('Почта введена некорректно', email),
-    required: helpers.withMessage('Почта не введена', required)
+    email: helpers.withMessage('Почта введена некорректно!', email),
+    required: helpers.withMessage('Почта не введена!', required)
   },
   phoneField: {
-    required: helpers.withMessage('Телефон не введен', required),
+    required: helpers.withMessage('Телефон не введен!', required),
     minLength: helpers.withMessage('Телефон менее 10-ти цифр!', minLength(16)),
   },
   checkBoxActive: {
-    checkBoxActive: helpers.withMessage('Согласие не дано', checkCheckbox)
+    checkBoxActive: helpers.withMessage('Согласие не дано!', checkCheckbox)
   }
 }))
 
@@ -156,9 +156,12 @@ const v = useVuelidate(rules, {nameField, emailField, passwordField, passwordFie
 
 const submit = () => {
   v.value.$touch()
-  console.log(errorPhoto.value)
+  console.log(review.photo)
+  if(review.photo == null) {
+    review.errorPhotoViewPer = 'Загрузите файл!';
+    return
+  }
   if (v.value.$error == true) return
-  if(review.photo == null) return
   axios.get('http://127.0.0.1:8000/reg/user',{
     params: {
       login: review.login
