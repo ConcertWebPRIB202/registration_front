@@ -713,7 +713,7 @@ input::-webkit-inner-spin-button {
     /* align-items: center; */
   }
   .custom-dropdown{
-    max-width: 306px;
+    max-width: 312px;
     height: 46px;
     margin: 0px 0 20px 16px;
     background-size: 18px;
@@ -773,7 +773,7 @@ input::-webkit-inner-spin-button {
   }
   .photo-margin{
     position: absolute;
-    right: -19%;
+    right: -21%;
     width: 26px;
   }
   .input-file{
