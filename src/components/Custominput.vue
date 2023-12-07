@@ -136,17 +136,21 @@ input:-webkit-autofill:active  {
         z-index: 999;
         font-size: 32px;
         width: 80%;
+        border-top-right-radius: 0;
+        border-top-left-radius: 20px;
     }
 }
-
 @media (max-width: 768px) {
+    .star{
+    width: 8px;
+}
     .tooltip{
         left: -2%;
         font-size: 16px;
         width: 100%;
     }
     .input-block{
-        max-width: 300px;
+        max-width: 350px;
     }
     .input-icon {
         width: 24px;
@@ -166,7 +170,8 @@ input:-webkit-autofill:active  {
         margin-bottom: 20px;
     }
     .input{
-        font-size: 16px;
+        font-size: 20px;
+        margin: 0 18px 0 8px;
     }
 }
 </style>

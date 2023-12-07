@@ -107,6 +107,11 @@ const handleClick = (event) => {
     .checkbox-width{
     width: 500px;
 }
+.custom-checkbox+label::before {
+    margin-left: 16px;
+    margin-right: 16px;
+    width: 32px;
+}
 }
 @media (max-width: 768px) {
     .checkbox-label{
@@ -118,14 +123,14 @@ const handleClick = (event) => {
     .custom-checkbox+label::before {
         width: 24px;
         height: 24px;
-        margin-left: 16px;
-        margin-right: 16px;
+        margin-left: 12px;
+        margin-right: 12px;
     }
     .star{
-        width: 16px;
+        width: 8px;
     }
-    .checkbox-body{
+    /* .checkbox-body{
         margin-left: 18%;
-    }
+    } */
 }
 </style>

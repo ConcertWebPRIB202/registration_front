@@ -312,7 +312,7 @@ const submit = () => {
                   <img src="../assets/star.svg" class="star-photo"/>
                   <label class="photo-label font-size-8 text-color-white ml-8">Фото паспорта: </label>
                 </div>
-                <div v-show="isShownPhoto" class="tooltip">Прикрепите фото первой <br> страницы паспорта.Фото <br> должно быть в форматах <br> jpg, jpeg, png, bmp, <br> gif, svg или webp</div>
+                <div v-show="isShownPhoto" class="tooltip tooltip-photo">Прикрепите фото первой <br> страницы паспорта.Фото <br> должно быть в форматах <br> jpg, jpeg, png, bmp, <br> gif, svg или webp</div>
                 <img @mouseenter="togglePhoto" @mouseleave="togglePhoto" class="photo-margin" src="../assets/question mark.svg">
               </div>
               <input 
@@ -462,7 +462,7 @@ input::-webkit-inner-spin-button {
   opacity: 0.78;
 }
 .custom-dropdown{
-  margin: 20px 0px 20px 38px;
+  margin: 20px 0px 20px 34px;
   background-color: #373737;
   width: 453px;
   height: 61px;
@@ -471,7 +471,7 @@ input::-webkit-inner-spin-button {
   background-position-x: calc(100% - 20px);
 }
 .custom-dropdown-placeholder{
-  padding-top: auto;
+  padding-top: 4px;
   padding-bottom: auto;
   padding-left: 32px;
   font-size: 32px;
@@ -630,10 +630,11 @@ input::-webkit-inner-spin-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 10%;
+    margin-left: 6%;
+    margin-right: 6%;
   }
   .mandatory-label{
-    margin-left: 10%;
+    margin-left: 12%;
     margin-bottom: 60px;
     max-width: 360px;
   }
@@ -641,7 +642,7 @@ input::-webkit-inner-spin-button {
     margin-right: 37%;
   }
   .registration-logo{
-    margin-right: 0;
+    margin-right: 6%;
     margin-top: 20px;
     margin-left: 6%;
   }
@@ -654,6 +655,8 @@ input::-webkit-inner-spin-button {
     z-index: 999;
     font-size: 32px;
     width: 80%;
+    border-top-right-radius: 0;
+    border-top-left-radius: 20px;
   }
   .container{
     display: flex;
@@ -665,6 +668,14 @@ input::-webkit-inner-spin-button {
   .registration-form{
     margin-top: 20px;
   }
+  .input-file{
+    width: 74%;
+    margin: 0 0 0 34px;
+  }
+  .form-button-click{
+    margin-left: 6%;
+    padding: 10px 80px 14px 80px;
+  }
 }
 @media (max-width: 768px) {
   .arrow{
@@ -672,15 +683,18 @@ input::-webkit-inner-spin-button {
   }
   .registration-logo{
     margin-left: 0;
+    margin-right: 0;
     margin-top: 50px;
   }
   .registration{
+    margin-right: 6%;
     margin-left: 0;
   }
   .mandatory-label{
     max-width: 320px;
     margin-bottom: 50px;
-    margin-left: 10%;
+    margin-left: 16%;
+    font-size: 22px;
   }
   .mandatory-block{
     display: flex;
@@ -690,12 +704,12 @@ input::-webkit-inner-spin-button {
   .registration-form{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
   }
   .custom-dropdown{
-    max-width: 262px;
+    max-width: 316px;
     height: 46px;
-    margin: 0px 0 20px 30px;
+    margin: 0px 0 20px 16px;
   }
   .custom-dropdown-placeholder{
     padding-top: 10px;
@@ -709,16 +723,17 @@ input::-webkit-inner-spin-button {
     max-width: 100%;
     left: 0;
     overflow-x: hidden;
-    padding-right: 16px;
+    padding-right: 24px;
   }
   .custom-dropdown-list-item{
-    max-width: 100%;
+    max-width: 316px;
     height: 44px;
     display: flex;
-    margin: 20px 0 0 10px;
+    margin: 20px 0 0 0;
   }
   .custom-dropdown-list-item span{
     font-size: 16px;
+    padding: 10px 0 0 30px;
   }
   .gender-label{
     font-size: 16px;
@@ -727,16 +742,17 @@ input::-webkit-inner-spin-button {
   }
   .gender-body{
     margin-left: 0;
+    margin-bottom: 0;
   }
   .custom-radio+label[data-v-ce3ae30b]::before {
     height: 26px;
     width: 26px;
   }
   .star-photo{
-    width: 16px;
+    width: 8px;
     position: absolute;
-    left: -3%;
-    top: 16%;
+    left: -1%;
+    top: 40%;
   }
   .photo-label{
     font-size: 16px;
@@ -746,12 +762,12 @@ input::-webkit-inner-spin-button {
   }
   .photo-margin{
     position: absolute;
-    right: -18%;
+    right: -25%;
     width: 26px;
   }
   .input-file{
-    margin: 0 30px 0 30px;
-    width: 70%;
+    margin: 0 30px 0 16px;
+    width: 72%;
     padding: 24px 32px;
     height: 53px;
   }
@@ -761,16 +777,27 @@ input::-webkit-inner-spin-button {
       margin-bottom: 20px;
   }
   .form-button-click{
-    max-width: 270px;
+    max-width: 318px;
     font-size: 16px;
     padding: 10px 56px 14px 56px;
+    margin-left: 4%;
   }
   .login{
     font-size: 14px;
     margin-right: 0;
-    margin-left: 14%;
+    /* margin-left: 14%; */
   }
-
+  .gender-body{
+    margin-left: 8%;
+  }
+  .namephoto{
+    font-size: 16px;
+    margin-right: 36%;
+  }
+  .tooltip-photo{
+    width: 116% !important;
+    top: 140%;
+  }
 
   .logo-shaman{
     display: none;
