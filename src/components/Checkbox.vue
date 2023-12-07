@@ -21,11 +21,12 @@ const props = defineProps({
 const handleClick = (event) => {
     emits('update:checked', event.target.checked)
 }
+
 </script>
 
 <template>
     <div class="mb-5 checkbox-body checkbox-width">
-        <img src="../assets/star.svg" class="star"/>
+        <img src="../assets/star.svg" class="star check"/>
         <input 
         :id="name"
         :name="name"
@@ -34,10 +35,10 @@ const handleClick = (event) => {
         class="custom-checkbox" 
         @input="handleClick($event)"
         >
-        <label for="consent" class="checkbox-label flex font-size-8 text-color-white widthchecbox" >Я даю свое согласие на обработку персональных данных</label>
+        <label for="consent" class="checkbox-label flex font-size-8 text-color-white widthchecbox">Я даю свое согласие на обработку персональных данных</label>
     </div>
     <TransitionGroup>
-        <div v-for="element of error" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text">
+        <div v-for="element of error" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 error-message error-message-color-text">
             {{ element.$message }}
         </div>
     </TransitionGroup>
@@ -103,14 +104,30 @@ const handleClick = (event) => {
     display: flex;
     width: 630px;
 }
+.error-message{
+    margin-left: 52px;
+}
+.border-errors{
+    border: 2px solid #F47A7A;
+}
 @media (max-width: 1440px) {
     .checkbox-width{
     width: 500px;
 }
+.custom-checkbox+label{
+    align-items: start;
+}
 .custom-checkbox+label::before {
     margin-left: 16px;
     margin-right: 16px;
+    margin-top: 26px;
     width: 32px;
+}
+.checkbox-width{
+    align-items: start;
+}
+.check{
+    margin-top: 34px;
 }
 }
 @media (max-width: 768px) {
@@ -125,10 +142,17 @@ const handleClick = (event) => {
         height: 24px;
         margin-left: 12px;
         margin-right: 12px;
+        margin-top: 0;
     }
     .star{
         width: 8px;
     }
+    .custom-checkbox+label{
+        align-items: center;
+    }
+.check{
+    margin-top: 20px;
+}
     /* .checkbox-body{
         margin-left: 18%;
     } */

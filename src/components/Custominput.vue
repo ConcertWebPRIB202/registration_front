@@ -171,7 +171,7 @@ input:-webkit-autofill:active  {
     }
     .input{
         font-size: 20px;
-        margin: 0 18px 0 8px;
+        margin: 0 10px 0 8px;
     }
 }
 </style>

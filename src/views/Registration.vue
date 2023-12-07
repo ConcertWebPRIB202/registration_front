@@ -55,14 +55,13 @@ const uploadFile = (e) => {
     review.photo = file;
     review.photo_look = file_look;
     review.errorPhotoViewPer = '';
-    return errorPhoto.value = !errorPhoto.value;
+    // return errorPhoto.value = !errorPhoto.value;
   } else {
-    console.log('dfgdfgfdgdfdfg')
     review.errorPhotoViewPer = 'Неверный формат файла!';
     review.photo_look = null;
     review.photo = null;
   }
-  console.log(review.photo);
+  // console.log(review.photo);
 }
 
 const uploadFileClick = () => {
@@ -157,6 +156,7 @@ const v = useVuelidate(rules, {nameField, emailField, passwordField, passwordFie
 
 const submit = () => {
   v.value.$touch()
+  console.log(errorPhoto.value)
   if (v.value.$error == true) return
   if(review.photo == null) return
   axios.get('http://127.0.0.1:8000/reg/user',{
@@ -333,12 +333,8 @@ const submit = () => {
               name="consent"
               type="checkbox"
               v-model:checked="v.checkBoxActive.$model"
+              :error="v.checkBoxActive.$errors"
             />
-            <TransitionGroup>
-                <div v-for="element of v.checkBoxActive.$errors" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 error-message error-message-color-text">
-                    {{ element.$message }}
-                </div>
-            </TransitionGroup>
             <button type="submit" class="form-button-click ml-12 cursor-pointer border-rd-20 border-0 text-color-white submain-background-color font-size-8">Зарегистрироваться</button>
             <p class="login text-color-white underline text-center mt-16 mb-24 mr-20 font-size-6">
               <router-link to="/authorisation">Уже есть аккаунт? Войти</router-link>
@@ -464,7 +460,7 @@ input::-webkit-inner-spin-button {
 .custom-dropdown{
   margin: 20px 0px 20px 34px;
   background-color: #373737;
-  width: 453px;
+  width: 454px;
   height: 61px;
   border-radius: 30px; 
   background: url(../assets/dropmenu.svg) no-repeat right rgba(55, 55, 55, 1);
@@ -472,14 +468,11 @@ input::-webkit-inner-spin-button {
 }
 .custom-dropdown-placeholder{
   padding-top: 4px;
-  padding-bottom: auto;
   padding-left: 32px;
   font-size: 32px;
   opacity: 50%;
 }
 .custom-dropdown-placeholder-city{
-  padding-top: auto;
-  padding-bottom: auto;
   padding-left: 32px;
   font-size: 32px;
 }
@@ -557,7 +550,7 @@ input::-webkit-inner-spin-button {
   height: 102px;
   width: 63%;
   border-radius: 30px;
-  margin: 0 0 0 50px;
+  margin: 0 0 0 36px;
   padding: 20px 26px;
 }
 .form-button{
@@ -565,7 +558,8 @@ input::-webkit-inner-spin-button {
 }
 .form-button-click{
   /* width: 85%; */
-  padding: 10px 74px 14px 74px;
+  margin-left: 6%;
+  padding: 10px 76px 14px 78px;
   background: #373737;
   font-family: Inter,  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
@@ -681,6 +675,9 @@ input::-webkit-inner-spin-button {
   }
 }
 @media (max-width: 768px) {
+  .registration-form{
+    margin-top: 10px;
+  }
   .arrow{
     width: 30px;
   }
@@ -695,7 +692,7 @@ input::-webkit-inner-spin-button {
   }
   .mandatory-label{
     max-width: 320px;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     margin-left: 16%;
     font-size: 22px;
   }
