@@ -527,7 +527,7 @@ input::-webkit-inner-spin-button {
   }
 }
 .custom-dropdown-list::-webkit-scrollbar {
-  width: 20px;
+  width: 10px;
 }
 .custom-dropdown-list::-webkit-scrollbar-button{
   display: none;
