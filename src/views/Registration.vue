@@ -707,9 +707,11 @@ input::-webkit-inner-spin-button {
     /* align-items: center; */
   }
   .custom-dropdown{
-    max-width: 316px;
+    max-width: 306px;
     height: 46px;
     margin: 0px 0 20px 16px;
+    background-size: 18px;
+    background-position-x: calc(100% - 26px);
   }
   .custom-dropdown-placeholder{
     padding-top: 10px;
@@ -720,16 +722,19 @@ input::-webkit-inner-spin-button {
     font-size: 16px;
   }
   .custom-dropdown-list{
-    max-width: 100%;
+    max-width: 91%;
     left: 0;
     overflow-x: hidden;
     padding-right: 24px;
   }
   .custom-dropdown-list-item{
-    max-width: 316px;
+    max-width: 100%;
     height: 44px;
     display: flex;
-    margin: 20px 0 0 0;
+    margin: 20px 0 0 8%;
+  }
+  .custom-dropdown-list::-webkit-scrollbar-thumb {
+    display: none;
   }
   .custom-dropdown-list-item span{
     font-size: 16px;
