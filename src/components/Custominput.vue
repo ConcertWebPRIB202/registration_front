@@ -60,8 +60,8 @@ const options = reactive({
 </script>
 
 <template>
-    <div class="flex mb-5 tooltip-group relative">
-        <img v-if="requiredStar == true" src="../assets/star.svg" />
+    <div class="flex mb-5 tooltip-group relative input-block">
+        <img v-if="requiredStar == true" src="../assets/star.svg" class="star"/>
         <div class="relative">
             <input
                 :id="name"
@@ -92,9 +92,13 @@ const options = reactive({
 <style scoped>
 .input{
     background: #373737;
+    font-size: 16px;
     /* outline: 4px solid #373737;
     outline-offset: -1px;
     color: #FFFFFF; */
+}
+.star{
+    width: 16px;
 }
 .error-message{
     margin-left: 52px;
@@ -127,18 +131,40 @@ input:-webkit-autofill:active  {
 }
 
 @media (max-width: 1440px) {
-  .tooltip{
-    left: 0;
-    top: 100%;
-    z-index: 999;
-    font-size: 32px;
-    width: 100%;
-  }
+    .tooltip{
+        left: 34px;
+        top: 100%;
+        z-index: 999;
+        font-size: 32px;
+        width: 80%;
+    }
 }
 
 @media (max-width: 768px) {
-  .tooltip{
-    left: -2%;
-  }
+    .tooltip{
+        left: -2%;
+        font-size: 16px;
+        width: 100%;
+    }
+    .input-block{
+        max-width: 300px;
+    }
+    .input-icon {
+        width: 24px;
+    }
+    .input-icon-right {
+        right: 36px;
+    }
+    .input-icon-top {
+        top: 16px;
+    }
+    .answer{
+        width: 26px;
+    }
+    .error-message{
+        font-size: 16px;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
 }
 </style>

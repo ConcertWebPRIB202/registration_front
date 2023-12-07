@@ -139,7 +139,8 @@ const rules = computed(() => ({
     required: helpers.withMessage('Почта не введена', required)
   },
   phoneField: {
-    required: helpers.withMessage('Телефон не введен', required)
+    required: helpers.withMessage('Телефон не введен', required),
+    minLength: helpers.withMessage('Телефон менее 10-ти цифр!', minLength(16)),
   },
   checkBoxActive: {
     checkBoxActive: helpers.withMessage('Согласие не дано', checkCheckbox)
@@ -177,17 +178,23 @@ const submit = () => {
 </script>
 <template>
         <div class="registration-body flex justify-center position-relative">
-          <router-link to="/mainpage" class="position-absolute top-10 left-10"><img src="../assets/Arrow 2.svg"></router-link>
+          <router-link to="/mainpage" class="position-absolute top-10 left-10"><img class="arrow" src="../assets/Arrow 2.svg"></router-link>
           <div class="registration-logo flex justify-center flex-col mr-10">
             <img class="logo-shaman" src="../assets/logoShaman.svg" />
             <div class="title-shaman text-center font-size-30 text-color-white">
               SHAMAN
             </div>
           </div>
-          <form class="registration-form mt-20" @submit.prevent.stop="submit">
-            <div class="flex mb-5 justify-center font-size-6 error-message-color-text">
+          <div class="registration">
+            <form class="registration-form mt-20" @submit.prevent.stop="submit">
+              <div class="mandatory-block">
+                <div class="flex mb-5 justify-center font-size-6 mandatory-label error-message-color-text">
+                  <label>Поля, отмеченные * являются обязательными</label>
+                </div>
+              </div>
+            <!-- <div class="flex mb-5 justify-center font-size-6 mandatory-label error-message-color-text">
               <label>Поля, отмеченные * являются обязательными</label>
-            </div>
+            </div> -->
             <CustomInput
               :requiredStar="true"
               name="login"
@@ -268,9 +275,9 @@ const submit = () => {
               </div>
             </div>
             <div class="flex mb-5 photo-body flex-col">
-              <div class="photo-block flex justify-between relative  mb-5">
-                <div>
-                  <img src="../assets/star.svg" />
+              <div class="photo-block flex relative  mb-5">
+                <div class="photo-block-label">
+                  <img src="../assets/star.svg" class="star-photo"/>
                   <label class="photo-label font-size-8 text-color-white ml-8">Фото паспорта: </label>
                 </div>
                 <div v-show="isShownPhoto" class="tooltip">Прикрепите фото первой <br> страницы паспорта.Фото <br> должно быть в форматах <br> jpg, jpeg, png, bmp, <br> gif, svg или webp</div>
@@ -296,15 +303,16 @@ const submit = () => {
               v-model:checked="v.checkBoxActive.$model"
             />
             <TransitionGroup>
-                <div v-for="element of v.checkBoxActive.$errors" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 errorMessage error-message-color-text">
+                <div v-for="element of v.checkBoxActive.$errors" :key="element.$uid" class="mb-5 flex mt-5 font-size-8 error-message error-message-color-text">
                     {{ element.$message }}
                 </div>
             </TransitionGroup>
             <button type="submit" class="form-button-click ml-12 cursor-pointer border-rd-20 border-0 text-color-white submain-background-color font-size-8">Зарегистрироваться</button>
-            <p class="loginIn text-color-white underline text-center mt-16 mb-24 mr-20 font-size-6">
+            <p class="login text-color-white underline text-center mt-16 mb-24 mr-20 font-size-6">
               <router-link to="/authorisation">Уже есть аккаунт? Войти</router-link>
             </p>
-          </form>
+            </form>
+          </div>
         </div>
   </template>
 
@@ -467,7 +475,7 @@ input::-webkit-inner-spin-button {
   }
 }
 .custom-dropdown-list-item{
-  margin: 30px 0px 0px 10px;
+  margin: 30px 0 0 10px;
   background-color: #373737;
   width: 374px;
   height: 53px;
@@ -478,7 +486,7 @@ input::-webkit-inner-spin-button {
 .custom-dropdown-list-item span {
   color: #ffffff;
   font-size: 32px;
-  padding: 7px 0px 0px 30px;
+  padding: 7px 0 0 30px;
 }
 @keyframes dropdown-list-item-animation {
   from {
@@ -532,7 +540,7 @@ input::-webkit-inner-spin-button {
 #upload{
   display: none;
 }
-.loginIn a{
+.login a{
   color: #ffffff;
 }
 .tooltip-top{
@@ -544,8 +552,8 @@ input::-webkit-inner-spin-button {
 .input{
   background: #373737;
 }
-.errorMessage{
-  margin-left: 52px;
+.error-message{
+    margin-left: 52px;
 }
 .borderErrors{
   border: 2px solid #F47A7A;
@@ -574,7 +582,47 @@ input::-webkit-inner-spin-button {
 .namephoto{
   margin-right: 70px;
 }
+.photo-block{
+  justify-content: space-between;
+}
 @media (max-width: 1440px) {
+  .registration-logo{
+    align-items: center;
+  }
+  .logo-shaman{
+    width: 562px;
+    height: 562px;
+  }
+  .registration{
+    /* max-width: 500px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10%;
+  }
+  .mandatory-label{
+    margin-left: 10%;
+    margin-bottom: 60px;
+    max-width: 360px;
+  }
+  .photo-block-label{
+    margin-right: 37%;
+  }
+  .registration-logo{
+    margin-right: 0;
+    margin-top: 20px;
+    margin-left: 6%;
+  }
+  .photo-margin {
+    margin-right: 0;
+  }
+  .tooltip{
+    left: 34px;
+    top: 100%;
+    z-index: 999;
+    font-size: 32px;
+    width: 80%;
+  }
   .container{
     display: flex;
     justify-content: center;
@@ -582,34 +630,126 @@ input::-webkit-inner-spin-button {
   .registration-body{
     flex-direction: column;
   }
-  .registration-logo{
-    margin-right: 0;
-    margin-top: 20px;
-  }
   .registration-form{
     margin-top: 20px;
   }
-
-  .photo-margin {
-    margin-right: 10px;
-  }
-  .tooltip{
-    left: 0;
-    top: 100%;
-    z-index: 999;
-    font-size: 32px;
-    width: 100%;
-  }
 }
 @media (max-width: 768px) {
+  .arrow{
+    width: 30px;
+  }
+  .registration-logo{
+    margin-left: 0;
+    margin-top: 50px;
+  }
+  .registration{
+    margin-left: 0;
+  }
+  .mandatory-label{
+    max-width: 320px;
+    margin-bottom: 50px;
+    margin-left: 10%;
+  }
+  .mandatory-block{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .registration-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .custom-dropdown{
+    max-width: 262px;
+    height: 46px;
+    margin: 0px 0 20px 30px;
+  }
+  .custom-dropdown-placeholder{
+    padding-top: 10px;
+    font-size: 16px;
+  }
+  .custom-dropdown-placeholder-city {
+    padding-top: 10px;
+    font-size: 16px;
+  }
+  .custom-dropdown-list{
+    max-width: 100%;
+    left: 0;
+    overflow-x: hidden;
+    padding-right: 16px;
+  }
+  .custom-dropdown-list-item{
+    max-width: 100%;
+    height: 44px;
+    display: flex;
+    margin: 20px 0 0 10px;
+  }
+  .custom-dropdown-list-item span{
+    font-size: 16px;
+  }
+  .gender-label{
+    font-size: 16px;
+    margin-bottom: 16px;
+    margin-right: 2rem;
+  }
+  .gender-body{
+    margin-left: 0;
+  }
+  .custom-radio+label[data-v-ce3ae30b]::before {
+    height: 26px;
+    width: 26px;
+  }
+  .star-photo{
+    width: 16px;
+    position: absolute;
+    left: -3%;
+    top: 16%;
+  }
+  .photo-label{
+    font-size: 16px;
+  }
+  .photo-block{
+    max-width: 300px;
+  }
+  .photo-margin{
+    position: absolute;
+    right: -18%;
+    width: 26px;
+  }
+  .input-file{
+    margin: 0 30px 0 30px;
+    width: 70%;
+    padding: 24px 32px;
+    height: 53px;
+  }
+  .error-message{
+      font-size: 16px;
+      margin-top: 0;
+      margin-bottom: 20px;
+  }
+  .form-button-click{
+    max-width: 270px;
+    font-size: 16px;
+    padding: 10px 56px 14px 56px;
+  }
+  .login{
+    font-size: 14px;
+    margin-right: 0;
+    margin-left: 14%;
+  }
+
+
   .logo-shaman{
     display: none;
   }
   .title-shaman{
-    font-size: 5rem;
+    font-size: 76px;
   }
   .tooltip{
     left: -2%;
+    font-size: 16px;
+    width: 100%;
   }
 }
 </style>
