@@ -707,7 +707,7 @@ input::-webkit-inner-spin-button {
     /* align-items: center; */
   }
   .custom-dropdown{
-    max-width: 316px;
+    max-width: 306px;
     height: 46px;
     margin: 0px 0 20px 16px;
     background-size: 18px;
