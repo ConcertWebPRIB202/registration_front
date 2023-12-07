@@ -51,16 +51,16 @@ const review = reactive({
 const uploadFile = (e) => {
   const file_look = e.target.files[0].name;
   const file = e.target.files[0];
-  if(/\.[^\.]*$/.exec(file_look)[0] == '.pdf'){
-    console.log('dfgdfgfdgdfdfg')
-    review.errorPhotoViewPer = 'Неверный формат файла!';
-    review.photo_look = null;
-    review.photo = null;
-  } else {
+  if(/\.[^\.]*$/.exec(file_look)[0] == '.jpg' || /\.[^\.]*$/.exec(file_look)[0] == '.jpeg' || /\.[^\.]*$/.exec(file_look)[0] == '.png' || /\.[^\.]*$/.exec(file_look)[0] == '.bmp' || /\.[^\.]*$/.exec(file_look)[0] == '.gif' || /\.[^\.]*$/.exec(file_look)[0] == '.svg' || /\.[^\.]*$/.exec(file_look)[0] == '.webp'){
     review.photo = file;
     review.photo_look = file_look;
     review.errorPhotoViewPer = '';
     return errorPhoto.value = !errorPhoto.value;
+  } else {
+    console.log('dfgdfgfdgdfdfg')
+    review.errorPhotoViewPer = 'Неверный формат файла!';
+    review.photo_look = null;
+    review.photo = null;
   }
   console.log(review.photo);
 }
