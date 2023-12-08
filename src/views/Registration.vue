@@ -162,20 +162,21 @@ const submit = () => {
     return
   }
   if (v.value.$error == true) return
+
   axios.get('http://127.0.0.1:8000/reg/user',{
     params: {
       login: review.login
     }
   })
-  alert('Forma complited')
+
   .then(function (response) {
+    console.log(response)
     if(response.status==200)
     {
       alert('Пользователь с таким логином уже существует')
     }
-    else if(response.status==204)
+    else if(response.status==203)
     {
-      console.log('pisya')
       const formData = new FormData();
       formData.append('login', review.login);
       formData.append('password', review.password);
