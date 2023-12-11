@@ -168,14 +168,14 @@ const submit = () => {
       login: review.login
     }
   })
-
   .then(function (response) {
-    console.log(response)
     if(response.status==200)
     {
       alert('Пользователь с таким логином уже существует')
     }
-    else if(response.status==203)
+  })
+  .catch(function (error) {
+    if(error.response.status==404)
     {
       const formData = new FormData();
       formData.append('login', review.login);
@@ -193,17 +193,19 @@ const submit = () => {
         }
       })
       .then(function (response) {
-        if(response.status==202)
-        {
-          router.push({ path: '/errorpackage'})
-        }
-        else if(response.status==201)
+        if(response.status==201)
         {
           router.push({ path: '/complete'})
         }
+      })
+      .catch(function (error) {
+        if(error.response.status==400)
+        {
+          router.push({ path: '/errorpackage'})
+        }
       });
     }
-    else if(response.status==201)
+    else if(error.response.status==400)
     {
       router.push({ path: '/errorpackage'})
     }
