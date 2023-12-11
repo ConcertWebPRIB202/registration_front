@@ -168,7 +168,6 @@ const submit = () => {
       login: review.login
     }
   })
-
   .then(function (response) {
     if(response.status==200)
     {
@@ -176,7 +175,7 @@ const submit = () => {
     }
   })
   .catch(function (error) {
-    if(error.status==404)
+    if(error.response.status==404)
     {
       const formData = new FormData();
       formData.append('login', review.login);
@@ -200,13 +199,13 @@ const submit = () => {
         }
       })
       .catch(function (error) {
-        if(error.status==400)
+        if(error.response.status==400)
         {
           router.push({ path: '/errorpackage'})
         }
       });
     }
-    else if(error.status==400)
+    else if(error.response.status==400)
     {
       router.push({ path: '/errorpackage'})
     }
