@@ -46,6 +46,7 @@ const review = reactive({
   photo_look: null,
   consent: false,
   errorPhotoViewPer: '',
+  maxlen: null,
 })
 
 const uploadFile = (e) => {
@@ -53,7 +54,14 @@ const uploadFile = (e) => {
   const file = e.target.files[0];
   if(/\.[^\.]*$/.exec(file_look)[0] == '.jpg' || /\.[^\.]*$/.exec(file_look)[0] == '.jpeg' || /\.[^\.]*$/.exec(file_look)[0] == '.png' || /\.[^\.]*$/.exec(file_look)[0] == '.bmp' || /\.[^\.]*$/.exec(file_look)[0] == '.gif' || /\.[^\.]*$/.exec(file_look)[0] == '.svg' || /\.[^\.]*$/.exec(file_look)[0] == '.webp'){
     review.photo = file;
-    review.photo_look = file_look;
+    // review.photo_look = file_look;
+    if(file_look.length > 25) {
+      review.maxlen = file_look.substr(0, 24) + '...';
+      review.photo_look = file_look;
+    } else {
+      review.maxlen = file_look;
+      review.photo_look = file_look;
+    }
     review.errorPhotoViewPer = '';
     // return errorPhoto.value = !errorPhoto.value;
   } else {
@@ -331,8 +339,9 @@ const submit = () => {
               <label for='upload' class="input-file" :class="!review.errorPhotoViewPer == '' ? 'border-errors' : ''"><img src="../assets/upload.svg"></label>
             </div>
             <div class="flex mb-5 justify-center font-size-6 error-message-color-text namephoto">
-              {{ review.photo_look }}
+              <!-- {{ review.photo_look }} -->
               {{ review.errorPhotoViewPer }}
+              {{ review.maxlen }}
             </div>
             <Checkbox
               id="consent"
