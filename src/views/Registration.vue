@@ -55,8 +55,8 @@ const uploadFile = (e) => {
   if(/\.[^\.]*$/.exec(file_look)[0] == '.jpg' || /\.[^\.]*$/.exec(file_look)[0] == '.jpeg' || /\.[^\.]*$/.exec(file_look)[0] == '.png' || /\.[^\.]*$/.exec(file_look)[0] == '.bmp' || /\.[^\.]*$/.exec(file_look)[0] == '.gif' || /\.[^\.]*$/.exec(file_look)[0] == '.svg' || /\.[^\.]*$/.exec(file_look)[0] == '.webp'){
     review.photo = file;
     // review.photo_look = file_look;
-    if(file_look.length > 25) {
-      review.maxlen = file_look.substr(0, 24) + '...';
+    if(file_look.length > 23) {
+      review.maxlen = file_look.substr(0, 22) + '...';
       review.photo_look = file_look;
     } else {
       review.maxlen = file_look;
