@@ -153,9 +153,9 @@ const rules = computed(() => ({
   },
   passwordFieldConfirm: {
     sameAsPassword: helpers.withMessage('Пароли не совпадают!', sameAs(passwordField.value)),
-    minLength: helpers.withMessage('Пароль менее 8-ми символов!', minLength(8)),
-    passwordField: helpers.withMessage('Пароль введен некорректно!', passAlpha),
-    required: helpers.withMessage('Пароль не введен!', required)
+    // minLength: helpers.withMessage('Пароль менее 8-ми символов!', minLength(8)),
+    // passwordField: helpers.withMessage('Пароль введен некорректно!', passAlpha),
+    // required: helpers.withMessage('Пароль не введен!', required)
   },
   emailField: {
     email: helpers.withMessage('Почта введена некорректно!', email),
@@ -622,7 +622,7 @@ input::-webkit-inner-spin-button {
   margin-top: 20px;
 }
 .namephoto{
-  margin-right: 70px;
+  margin-right: 16%;
 }
 .photo-block{
   justify-content: space-between;
