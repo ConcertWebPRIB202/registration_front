@@ -117,11 +117,20 @@ const togglePhoto = () => {
 }
 
 const passAlpha = (value) => {
+if(!value){
+  return true
+} else {
   if(!/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g.test(value)){
     return false
   } else {
     return true
   }
+}
+  // if(!/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g.test(value)){
+  //   return false
+  // } else {
+  //   return true
+  // }
 }
 
 const checkCheckbox = (value) => {
