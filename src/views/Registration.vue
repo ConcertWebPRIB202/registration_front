@@ -68,6 +68,7 @@ const uploadFile = (e) => {
     review.errorPhotoViewPer = 'Неверный формат файла!';
     review.photo_look = null;
     review.photo = null;
+    review.maxlen = null;
   }
   // console.log(review.photo);
 }
@@ -234,7 +235,7 @@ const submit = () => {
           <div class="registration">
             <form class="registration-form mt-20" @submit.prevent.stop="submit">
               <div class="mandatory-block">
-                <div class="flex mb-5 justify-center font-size-6 mandatory-label error-message-color-text">
+                <div class="flex mb-5 justify-start font-size-6 mandatory-label error-message-color-text">
                   <label>Поля, отмеченные * являются обязательными</label>
                 </div>
               </div>
