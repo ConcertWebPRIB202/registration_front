@@ -153,6 +153,14 @@ const handleClick = (event) => {
 .check{
     margin-top: 20px;
 }
+    .error-message{
+        font-size: 16px;
+        margin-left: 0;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0;
+    }
     /* .checkbox-body{
         margin-left: 18%;
     } */
