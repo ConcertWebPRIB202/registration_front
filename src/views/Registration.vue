@@ -646,6 +646,9 @@ input::-webkit-inner-spin-button {
 .photo-block{
   justify-content: space-between;
 }
+.login a:hover{
+  color: #F7F4A4;
+}
 @media (max-width: 1440px) {
   .login{
     margin-right: 1rem;
@@ -835,7 +838,7 @@ input::-webkit-inner-spin-button {
   }
   .namephoto{
     font-size: 16px;
-    margin-right: 36%;
+    margin-right: 0;
   }
   .tooltip-photo{
     width: 116% !important;
